@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Java project files
+.classpath
+.project
+.settings/
+bin/
+target/
+tmp/
+logs/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

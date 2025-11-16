@@ -1,0 +1,12 @@
+plugin:
+  enabled: "UnderwaterTrees eklentisi etkinleştirildi."
+  disabled: "UnderwaterTrees eklentisi devre dışı bırakıldı."
+  language_set: "Dil {code} olarak ayarlandı."
+update:
+  available: "Yeni sürüm {remote} mevcut (kullandığın sürüm {local})."
+  link: "Daha fazlası: {url}"
+  failed: "{source} için güncelleme kontrolü başarısız oldu."
+command:
+  usage: "Kullanım: /{label} reload"
+  reloaded: "UnderwaterTrees yapılandırması yeniden yüklendi."
+  no_permission: "Bunu yapmak için yetkin yok."

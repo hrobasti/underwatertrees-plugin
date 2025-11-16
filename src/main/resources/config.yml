@@ -1,0 +1,84 @@
+# UnderwaterTrees configuration
+
+# === General ===
+# Base settings for language and global plugin behavior.
+
+# Language (country code = filename in lang/) used for messages.
+# Must match a file in src/main/resources/lang (e.g., en_US, de_DE).
+language: en_US
+
+# === Logging & Reload ===
+# Control verbosity and automatic configuration reload.
+
+# Log a summary of the enabled soils/saplings on startup and on reload.
+log-stats: true
+
+# List each enabled soil and sapling individually for verification.
+log-detail: false
+
+# Automatically reload when this file changes externally (~5s polling).
+# When disabled, use /underwatertrees reload to apply changes.
+auto-reload: true
+
+# === Placement Rules ===
+# Constraints for placing saplings underwater.
+
+# Only allow placement if there is water directly above the target block.
+# Default false allows placement even without water above.
+require-water-above: false
+
+# === Materials ===
+# Enable/disable individual materials by Bukkit Material name.
+
+# Allowed soils (true = allowed). Add more keys as needed.
+soils:
+  DIRT: true
+  GRASS_BLOCK: true
+  PODZOL: true
+  COARSE_DIRT: true
+  ROOTED_DIRT: true
+  MOSS_BLOCK: true
+  MUD: true
+  SAND: false
+  RED_SAND: false
+
+# Allowed saplings (true = allowed). Supports custom saplings from other plugins.
+saplings:
+  OAK_SAPLING: true
+  SPRUCE_SAPLING: true
+  BIRCH_SAPLING: true
+  JUNGLE_SAPLING: true
+  ACACIA_SAPLING: true
+  DARK_OAK_SAPLING: true
+  CHERRY_SAPLING: true
+  MANGROVE_PROPAGULE: true  # already water-placeable in vanilla, kept for consistency
+
+# === Metrics ===
+# Anonymous usage metrics via bStats; global opt-out in plugins/bStats/config.yml.
+
+# Enable anonymous bStats metrics collection for UnderwaterTrees.
+metrics-enabled: true
+ 
+# === Update Checking ===
+# Periodically checks Modrinth/Hangar for new releases and notifies admins.
+
+# Master switch for update checks.
+update-check: true
+
+# Interval in hours between checks (minimum 1 hour).
+update-interval-hours: 24
+
+# Include beta/alpha versions when determining the latest version.
+include-prereleases: false
+
+# Prefer builds that match the server's Minecraft version.
+filter-by-server-version: true
+
+# Log update availability to console when a newer version is found.
+notify-console: true
+
+# Notify ops on join when an update is available.
+notify-op-join: true
+
+# Sources mode: 0 = Modrinth + Hangar, 1 = Modrinth only, 2 = Hangar only.
+update-sources: 0

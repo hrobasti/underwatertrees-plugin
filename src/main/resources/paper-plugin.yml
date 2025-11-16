@@ -1,0 +1,12 @@
+name: UnderwaterTrees
+version: ${version}
+main: com.hro_basti.underwatertrees.Plugin
+description: Allows placing tree saplings underwater.
+api-version: '1.21'
+permissions:
+  underwatertrees.reload:
+    description: Allows reloading the plugin configuration
+    default: op
+  underwatertrees.update:
+    description: Allows receiving update notifications on join
+    default: op

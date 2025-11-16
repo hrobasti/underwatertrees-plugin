@@ -1,0 +1,9 @@
+UnderwaterTrees
+Copyright 2025 hro_basti
+
+This product includes software developed by the UnderwaterTrees contributors.
+
+Third-Party Notices:
+- bStats Metrics (single-file) by the bStats project
+  Repository: https://github.com/Bastian/bstats-metrics
+  Notes: The single-file Metrics class is included and relocated. Per bStats terms, it must not be modified (except package relocation), obfuscated, or reformatted. For details, see the upstream repository and its terms.

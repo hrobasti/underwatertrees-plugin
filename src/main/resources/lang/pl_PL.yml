@@ -1,0 +1,12 @@
+plugin:
+  enabled: "Wtyczka UnderwaterTrees włączona."
+  disabled: "Wtyczka UnderwaterTrees wyłączona."
+  language_set: "Ustawiono język na {code}."
+update:
+  available: "Dostępna nowa wersja {remote} (używasz {local})."
+  link: "Więcej informacji: {url}"
+  failed: "Sprawdzenie aktualizacji nie powiodło się dla {source}."
+command:
+  usage: "Użycie: /{label} reload"
+  reloaded: "Konfiguracja UnderwaterTrees przeładowana."
+  no_permission: "Nie masz uprawnień do tej czynności."

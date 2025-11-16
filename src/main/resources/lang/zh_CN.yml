@@ -1,0 +1,12 @@
+plugin:
+  enabled: "UnderwaterTrees 插件已启用。"
+  disabled: "UnderwaterTrees 插件已禁用。"
+  language_set: "语言已设置为 {code}。"
+update:
+  available: "发现新版本 {remote}（当前为 {local}）。"
+  link: "更多信息：{url}"
+  failed: "检查 {source} 更新失败。"
+command:
+  usage: "用法: /{label} reload"
+  reloaded: "UnderwaterTrees 配置已重新加载。"
+  no_permission: "你没有执行此操作的权限。"

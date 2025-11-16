@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+}
+
+// Projekt-Metadaten
+group = 'com.hro_basti.underwatertrees'
+// Manual versioning: prefer version from version.properties, then gradle.properties, else fallback
+def resolvedVersion = null
+def versionFile = file('version.properties')
+if (versionFile.exists()) {
+    def props = new Properties()
+    versionFile.withInputStream { props.load(it) }
+    resolvedVersion = props.getProperty('version')
+}
+if (resolvedVersion == null || resolvedVersion.trim().isEmpty()) {
+    resolvedVersion = project.findProperty('version') ?: '1.0.0'
+}
+version = resolvedVersion
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = uri('https://repo.papermc.io/repository/maven-public/')
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT'
+    // bStats single-file Metrics class is included directly (no dependency needed)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Inject project.version into paper-plugin.yml at build time
+tasks.named('processResources') {
+    filesMatching('paper-plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+// Manual versioning only; remove auto-increment logic.
+
+jar {
+    archiveBaseName.set('UnderwaterTrees')
+    archiveVersion.set(project.version.toString())
+}

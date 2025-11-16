@@ -1,0 +1,12 @@
+plugin:
+  enabled: "Плагін UnderwaterTrees увімкнено."
+  disabled: "Плагін UnderwaterTrees вимкнено."
+  language_set: "Мову встановлено на {code}."
+update:
+  available: "Доступна нова версія {remote} (ти використовуєш {local})."
+  link: "Докладніше: {url}"
+  failed: "Помилка перевірки оновлень для {source}."
+command:
+  usage: "Використання: /{label} reload"
+  reloaded: "Конфігурацію UnderwaterTrees перезавантажено."
+  no_permission: "У тебе немає дозволу на цю дію."
