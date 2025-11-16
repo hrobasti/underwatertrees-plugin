@@ -133,7 +133,6 @@ public class Plugin extends JavaPlugin {
                 metrics.addCustomChart(new Metrics.SimplePie("language", () -> messages.getLanguage()));
                 metrics.addCustomChart(new Metrics.SingleLineChart("sapling_count", saplingsListener::getSaplingCount));
                 metrics.addCustomChart(new Metrics.SingleLineChart("soil_block_count", saplingsListener::getSoilCount));
-                getLogger().info("bStats metrics initialized (id 28005).");
             }
         } else {
             if (metrics != null) {
