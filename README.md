@@ -75,7 +75,7 @@ Notes:
 | `log-stats` | boolean | `true` | Logs counts of loaded soils/saplings on enable/reload. |
 | `log-detail` | boolean | `false` | Lists every loaded soil and sapling individually if true. |
 | `auto-reload` | boolean | `true` | Watches `config.yml` for external changes (5s interval) and auto reloads. |
-| `metrics-enabled` | boolean | `true` | Enables bStats anonymous usage metrics (plugin id 28005). |
+| `metrics-enabled` | boolean | `true` | Enables bStats anonymous usage metrics. |
 | `soils` | map<string, boolean> | varies | Enable flags for soil materials. |
 | `saplings` | map<string, boolean> | varies | Enable flags for sapling materials (supports custom additions). |
 
