@@ -22,14 +22,7 @@ From the project root directory:
 
 - Windows
 ```bat
-gradlew.bat build
-```
-
-The built plugin JAR will be located at:
-- `build/libs/UnderwaterTrees-*.jar`
-
-If you prefer a system Gradle installation, you can run `gradle build` instead of the wrapper.
-
+Underwater stability protection: prevents unintended breaking from water/physics when enabled via `protect-underwater-saplings`.
 Versioning: The plugin version is taken from `version.properties` (key `version`) if present, otherwise from `gradle.properties`. The resolved version is injected into both the JAR file name and `paper-plugin.yml`.
 
 ## Install & Use
@@ -41,13 +34,13 @@ Versioning: The plugin version is taken from `version.properties` (key `version`
 ```
 /underwatertrees reload
 ```
+| `protect-underwater-saplings` | boolean | `true` | Prevents physics/fluid updates from breaking adjacent underwater saplings while placement conditions are still valid. |
 
 See also: Commands & Permissions section below.
 
 Notes:
 - Materials are resolved by name at runtime. Unknown materials are ignored silently.
-- With `auto-reload: true`, changes to `config.yml` are picked up automatically (checked every ~5 seconds).
-- With `metrics-enabled: true`, anonymous metrics are sent via bStats; global opt-out in `plugins/bStats/config.yml`.
+	- Comparison rules: numeric first (major > minor > patch), then release > pre-release, then pre-release channels (`alpha` < `beta` < `rc`) and their numeric indices (e.g., `beta2` > `beta1`). Letter suffixes without hyphen (e.g., `1.0a`) are treated as newer than the plain release (`1.0`).
 
 ## Compatibility
 

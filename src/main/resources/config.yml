@@ -27,6 +27,10 @@ auto-reload: true
 # Default false allows placement even without water above.
 require-water-above: false
 
+# Prevent unintended breaking of adjacent underwater saplings caused by water physics.
+# If true, certain physics events for placed saplings are cancelled (may slightly delay growth).
+protect-underwater-saplings: true
+
 # === Materials ===
 # Enable/disable individual materials by Bukkit Material name.
 

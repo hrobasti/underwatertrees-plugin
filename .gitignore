@@ -26,5 +26,5 @@ Thumbs.db
 # Logs
 *.log
 
-# GitHub metadata (nicht mit einchecken)
+# GitHub metadata (do not commit)
 .github/

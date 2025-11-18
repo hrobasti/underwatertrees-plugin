@@ -185,27 +185,121 @@ public class UpdateChecker {
     }
 
     private boolean isNewer(String remote, String local) {
-        int[] r = parseSemVer(remote);
-        int[] l = parseSemVer(local);
-        if (r[0] != l[0]) return r[0] > l[0];
-        if (r[1] != l[1]) return r[1] > l[1];
-        if (r[2] != l[2]) return r[2] > l[2];
+        Version r = parseVersion(remote);
+        Version l = parseVersion(local);
+        if (r.major != l.major) return r.major > l.major;
+        if (r.minor != l.minor) return r.minor > l.minor;
+        if (r.patch != l.patch) return r.patch > l.patch;
+
+        // Numeric parts equal: compare suffix semantics
+        // Release > pre-release; letter-suffix (e.g., 1.0a) > plain release
+        if (r.isPreRelease != l.isPreRelease) {
+            // remote is release while local is pre-release => newer
+            return !r.isPreRelease && l.isPreRelease;
+        }
+        if (r.isPreRelease && l.isPreRelease) {
+            int rp = preReleaseRank(r.preReleaseTag);
+            int lp = preReleaseRank(l.preReleaseTag);
+            if (rp != lp) return rp > lp;
+            // If both same channel (e.g., rc), compare numeric index if present
+            if (r.preReleaseNum != l.preReleaseNum) return r.preReleaseNum > l.preReleaseNum;
+            return false;
+        }
+        // No hyphen pre-release on either side: compare trailing letter rank
+        if (r.letterRank != l.letterRank) return r.letterRank > l.letterRank;
         return false;
     }
 
-    private int[] parseSemVer(String v) {
-        // Extract digits a.b.c ignoring suffix
-        int major = 0, minor = 0, patch = 0;
-        try {
-            String[] parts = v.split("-", 2)[0].split("\\.");
-            if (parts.length > 0) major = parseInt(parts[0]);
-            if (parts.length > 1) minor = parseInt(parts[1]);
-            if (parts.length > 2) patch = parseInt(parts[2]);
-        } catch (Exception ignored) {}
-        return new int[]{major, minor, patch};
+    private static class Version {
+        int major, minor, patch;
+        boolean isPreRelease;
+        String preReleaseTag; // alpha,beta,rc, etc.
+        int preReleaseNum;    // e.g., rc.1 => 1
+        int letterRank;       // 0 for none, a=1,b=2,... (plain release < lettered)
     }
 
-    private int parseInt(String s) {
+    private Version parseVersion(String v) {
+        Version out = new Version();
+        if (v == null) v = "0.0.0";
+        String base = v;
+        String pre = null;
+        int dash = v.indexOf('-');
+        if (dash >= 0) {
+            base = v.substring(0, dash);
+            pre = v.substring(dash + 1).toLowerCase(Locale.ROOT);
+        }
+
+        // Split base into parts, allow trailing letters in last segment (e.g., 1.0a)
+        String[] parts = base.split("\\.");
+        out.major = parseLeadingInt(parts, 0);
+        out.minor = parseLeadingInt(parts, 1);
+        out.patch = parseLeadingInt(parts, 2);
+
+        // Letter suffix without hyphen (e.g., 1.0a or 1.0.1b)
+        if (pre == null) {
+            String last = parts.length > 0 ? parts[parts.length - 1] : "";
+            int i = indexFirstNonDigit(last);
+            if (i >= 0 && i < last.length()) {
+                char c = Character.toLowerCase(last.charAt(i));
+                if (c >= 'a' && c <= 'z') out.letterRank = (c - 'a') + 1; // a=1,b=2,...
+            }
+        }
+
+        // Pre-release details
+        if (pre != null) {
+            out.isPreRelease = true;
+            // Extract tag and optional number (rc.1, beta2 etc.)
+            String tag = pre;
+            int num = 0;
+            // common separators
+            int dot = pre.indexOf('.');
+            if (dot > 0) {
+                tag = pre.substring(0, dot);
+                num = safeParseInt(pre.substring(dot + 1));
+            } else {
+                // trailing digits e.g., beta2
+                int idx = indexFirstDigit(pre);
+                if (idx > 0) {
+                    tag = pre.substring(0, idx);
+                    num = safeParseInt(pre.substring(idx));
+                }
+            }
+            out.preReleaseTag = tag;
+            out.preReleaseNum = num;
+        }
+        return out;
+    }
+
+    private int parseLeadingInt(String[] parts, int idx) {
+        if (idx >= parts.length) return 0;
+        String s = parts[idx];
+        int i = 0;
+        while (i < s.length() && Character.isDigit(s.charAt(i))) i++;
+        if (i == 0) return 0;
+        try { return Integer.parseInt(s.substring(0, i)); } catch (Exception e) { return 0; }
+    }
+
+    private int indexFirstNonDigit(String s) {
+        for (int i = 0; i < s.length(); i++) if (!Character.isDigit(s.charAt(i))) return i;
+        return -1;
+    }
+
+    private int indexFirstDigit(String s) {
+        for (int i = 0; i < s.length(); i++) if (Character.isDigit(s.charAt(i))) return i;
+        return -1;
+    }
+
+    private int safeParseInt(String s) {
         try { return Integer.parseInt(s); } catch (Exception e) { return 0; }
+    }
+
+    private int preReleaseRank(String tag) {
+        if (tag == null) return 0;
+        tag = tag.toLowerCase(Locale.ROOT);
+        if (tag.startsWith("alpha") || tag.equals("a")) return 1;
+        if (tag.startsWith("beta") || tag.equals("b")) return 2;
+        if (tag.startsWith("rc")) return 3;
+        if (tag.startsWith("pre")) return 1; // treat as early pre-release
+        return 1; // unknown pre-release, treat as early stage
     }
 }

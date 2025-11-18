@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-// Projekt-Metadaten
+// Project metadata
 group = 'com.hro_basti.underwatertrees'
 // Manual versioning: prefer version from version.properties, then gradle.properties, else fallback
 def resolvedVersion = null
@@ -47,7 +47,7 @@ tasks.named('processResources') {
     }
 }
 
-// Manual versioning only; remove auto-increment logic.
+// Manual versioning only; no auto-increment logic.
 
 jar {
     archiveBaseName.set('UnderwaterTrees')

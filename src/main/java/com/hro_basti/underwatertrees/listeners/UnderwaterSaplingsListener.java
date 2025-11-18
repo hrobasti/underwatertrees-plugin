@@ -28,10 +28,21 @@ public class UnderwaterSaplingsListener implements Listener {
     private final Set<Material> saplings = EnumSet.noneOf(Material.class);
     private final Set<Material> validSoils = new HashSet<>();
     private boolean requireWaterAbove = true;
+    private boolean protectSaplings = true;
 
     public UnderwaterSaplingsListener(Plugin plugin) {
         this.plugin = plugin;
         applyConfig(plugin.getConfig());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onFluidFlow(org.bukkit.event.block.BlockFromToEvent event) {
+        if (!protectSaplings) return;
+        Block to = event.getToBlock();
+        if (saplings.contains(to.getType())) {
+            // Prevent fluids from flowing into the sapling block to avoid breaking/updates
+            event.setCancelled(true);
+        }
     }
 
     public void applyConfig(FileConfiguration cfg) {
@@ -39,6 +50,7 @@ public class UnderwaterSaplingsListener implements Listener {
         validSoils.clear();
 
         requireWaterAbove = cfg.getBoolean("require-water-above", false);
+        protectSaplings = cfg.getBoolean("protect-underwater-saplings", true);
         boolean logStats = cfg.getBoolean("log-stats", true);
         boolean logDetail = cfg.getBoolean("log-detail", false);
 
@@ -125,7 +137,7 @@ public class UnderwaterSaplingsListener implements Listener {
         }
 
         if (logStats) {
-            plugin.getLogger().info("Loaded soils: " + validSoils.size() + ", saplings: " + saplings.size() + ", require-water-above=" + requireWaterAbove + ", log-detail=" + logDetail);
+            plugin.getLogger().info("Loaded soils: " + validSoils.size() + ", saplings: " + saplings.size() + ", require-water-above=" + requireWaterAbove + ", protect-underwater-saplings=" + protectSaplings + ", log-detail=" + logDetail);
         }
         if (logDetail) {
             if (!validSoils.isEmpty()) {
@@ -141,6 +153,22 @@ public class UnderwaterSaplingsListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPhysics(org.bukkit.event.block.BlockPhysicsEvent event) {
+        if (!protectSaplings) return;
+        Block b = event.getBlock();
+        if (!saplings.contains(b.getType())) return;
+
+        // Allow natural break if survival conditions are no longer met
+        Block soil = b.getRelative(BlockFace.DOWN);
+        if (!validSoils.contains(soil.getType())) return;
+        Block above = b.getRelative(BlockFace.UP);
+        if (requireWaterAbove && above.getType() != Material.WATER) return;
+
+        // Survival conditions still valid -> cancel any physics that would otherwise break the sapling
+        event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

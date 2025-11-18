@@ -139,7 +139,6 @@ public class Plugin extends JavaPlugin {
                 // Cannot fully stop submissions immediately; shutdown scheduler
                 metrics.shutdown();
                 metrics = null;
-                getLogger().info("bStats metrics disabled via config.");
             }
         }
     }
