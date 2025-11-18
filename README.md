@@ -34,7 +34,6 @@ Versioning: The plugin version is taken from `version.properties` (key `version`
 ```
 /underwatertrees reload
 ```
-| `protect-underwater-saplings` | boolean | `true` | Prevents physics/fluid updates from breaking adjacent underwater saplings while placement conditions are still valid. |
 
 See also: Commands & Permissions section below.
 
@@ -65,6 +64,7 @@ Notes:
 |-----|------|---------|-------------|
 | `language` | string | `en_US` | Language file code from `lang/` folder. |
 | `require-water-above` | boolean | `false` | Only allow placement if target block has water above. |
+| `protect-underwater-saplings` | boolean | `true` | Prevents physics/fluid updates from breaking adjacent underwater saplings while placement conditions are still valid. |
 | `log-stats` | boolean | `true` | Logs counts of loaded soils/saplings on enable/reload. |
 | `log-detail` | boolean | `false` | Lists every loaded soil and sapling individually if true. |
 | `auto-reload` | boolean | `true` | Watches `config.yml` for external changes (5s interval) and auto reloads. |
@@ -251,6 +251,10 @@ Configuration (in `config.yml`):
 	- New options missing: restart or `/underwatertrees reload` to trigger defaults merge.
 	- Auto‑reload not triggering: ensure `auto-reload: true`; some environments have coarse timestamp updates.
 	- Waterlogged visuals: the vanilla client cannot render waterlogged saplings; this is a client limitation.
+
+	## Project Notes
+
+	Development of UnderwaterTrees included the use of generative AI assistance (e.g., GitHub Copilot) for scaffolding, refactoring and documentation drafts. All code and text were reviewed, adapted and validated by the project maintainer to ensure accuracy, licensing compliance and suitability for the Paper API.
 
 	## License
 
