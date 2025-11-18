@@ -1,17 +1,12 @@
 # UnderwaterTrees – Paper Plugin
 
-Minimal Paper plugin for Minecraft 1.21.10 that allows placing saplings underwater with configurable materials, localization and live config reload.
-
-## Requirements
-
-**Build Requirements**
-- Java 21 (JDK)
-- Gradle (optional) – you can also use the included Gradle Wrapper
-
-**Server Requirements**
-- Paper Server 1.21.x
+Minimal Paper plugin for Minecraft 1.21.x that allows placing saplings underwater with configurable materials, localization and live config reload.
 
 ## Build
+
+**Requirements**
+- Java 21 (JDK)
+- Gradle (optional) – you can also use the included Gradle Wrapper
 
 From the project root directory:
 
@@ -28,6 +23,9 @@ Underwater stability protection: prevents unintended breaking from water/physics
 Versioning: The plugin version is taken from `version.properties` (key `version`) if present, otherwise from `gradle.properties`. The resolved version is injected into both the JAR file name and `paper-plugin.yml`.
 
 ## Install & Use
+
+**Requirements**
+- Paper Server 1.21.x
 
 1) Copy the built JAR into your Paper server `plugins` folder.
 2) Start (or restart) the server. A default configuration will be created under `plugins/UnderwaterTrees/config.yml`.
