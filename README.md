@@ -1,263 +1,154 @@
-# UnderwaterTrees – Paper Plugin
+# 🌳 UnderwaterTrees (Paper 1.21.x)
 
-Minimal Paper plugin for Minecraft 1.21.x that allows placing saplings underwater with configurable materials, localization and live config reload.
+Minimal Paper plugin for Minecraft 1.21.x that allows placing saplings underwater with configurable materials, localization, live reload, update checks, metrics, and stability protection.
 
-## Build
+## 📋 Requirements
 
-**Requirements**
-- Java 21 (JDK)
-- Gradle (optional) – you can also use the included Gradle Wrapper
+- **Java 21** (JDK)
+- **Paper Server 1.21.x** (Spigot and vanilla are not supported)
+- **Gradle** (optional; wrapper included)
 
-From the project root directory:
+## 🔨 Build
 
-- Linux/macOS
+From the project root:
+
+**Linux/macOS**
 ```bash
 ./gradlew build
 ```
 
-- Windows
+**Windows**
 ```bat
 gradlew.bat build
 ```
-Underwater stability protection: prevents unintended breaking from water/physics when enabled via `protect-underwater-saplings`.
-Versioning: The plugin version is taken from `version.properties` (key `version`) if present, otherwise from `gradle.properties`. The resolved version is injected into both the JAR file name and `paper-plugin.yml`.
 
-## Install & Use
+**Output:** `build/libs/UnderwaterTrees-<version>.jar`
 
-**Requirements**
-- Paper Server 1.21.x
+**Versioning:** The plugin version is read from `version.properties` (`version=x.y.z`). If absent, it falls back to `gradle.properties`. The resolved version is injected into `paper-plugin.yml` and the JAR filename.
 
-1) Copy the built JAR into your Paper server `plugins` folder.
-2) Start (or restart) the server. A default configuration will be created under `plugins/UnderwaterTrees/config.yml`.
-3) Adjust configuration (materials, language, logging, auto-reload, metrics) to your needs.
-4) Reload the plugin configuration in-game or console:
-```
-/underwatertrees reload
-```
+## 📦 Installation & Usage
 
-See also: Commands & Permissions section below.
+1. Copy the built JAR into your server `plugins` folder.
+2. Start (or restart) the server to generate `plugins/UnderwaterTrees/config.yml` and `plugins/UnderwaterTrees/lang/`.
+3. Adjust the config as needed (materials, language, logging, auto‑reload, metrics, stability).
+4. Reload in-game or console:
+   ```
+   /underwatertrees reload
+   ```
 
-Notes:
-- Materials are resolved by name at runtime. Unknown materials are ignored silently.
-	- Comparison rules: numeric first (major > minor > patch), then release > pre-release, then pre-release channels (`alpha` < `beta` < `rc`) and their numeric indices (e.g., `beta2` > `beta1`). Letter suffixes without hyphen (e.g., `1.0a`) are treated as newer than the plain release (`1.0`).
+**Notes:**
+- Materials are resolved by name at runtime; unknown names are ignored.
+- With `auto-reload: true`, config changes are detected every ~5 seconds.
+- Metrics can be disabled via `metrics-enabled: false` or globally in `plugins/bStats/config.yml`.
 
-## Compatibility
+## 🔧 Compatibility
 
-- Platform: Paper only. Spigot is not supported (uses Paper-only APIs). Vanilla servers do not support plugins.
-- API target: `api-version: 1.21` and built against Paper API `1.21.10`.
-- Older server versions: Materials are resolved by name at runtime. If a material does not exist on the server version, it is silently ignored. The plugin is designed for 1.21.x; running on older versions is not guaranteed or supported.
+- **Platform:** Paper only (uses Paper-specific APIs). Spigot and vanilla servers are not supported.
+- **API Target:** `api-version: 1.21`, built against Paper API `1.21.10`.
+- **Older Versions:** Not supported. Unknown materials on older servers are ignored silently.
 
-## Features
+## ✨ Features
 
-- Underwater placement of configured saplings on configured soil blocks.
-- Per-material enable/disable flags (`saplings:` and `soils:` maps with boolean values).
-- Fallback defaults if both sections are empty.
-- Internationalization (language files in `src/main/resources/lang`).
-- Live language + config reload via `/underwatertrees reload`.
-- Optional stats logging (`log-stats`) and detailed listing (`log-detail`).
-- Automatic external config file change detection (`auto-reload`) – can be disabled.
-- Optional anonymous metrics via bStats (`metrics-enabled`) with custom charts (language, sapling count, soil count). Global opt-out in `plugins/bStats/config.yml`.
+- 🌊 Underwater placement of configured saplings on configured soil blocks.
+- 🎚️ Per‑material enable/disable flags (`saplings` and `soils` boolean maps).
+- 🔄 Fallback defaults if both sections are empty.
+- 🌐 Internationalization (language files in `src/main/resources/lang`).
+- ⚡ Live config + language reload via `/underwatertrees reload`.
+- 📊 Optional stats logging (`log-stats`) and detailed listing (`log-detail`).
+- 🔁 Automatic external config file change detection (`auto-reload`).
+- 📈 Optional bStats metrics (`metrics-enabled`) with custom charts: language, sapling count, soil count.
+- 🛡️ Stability protection (`protect-underwater-saplings`): prevents unintended breaking from physics/fluids while placement conditions remain valid.
+- 🔔 Update checker with Modrinth/Hangar sources, version comparison, and optional pre-release inclusion.
 
-### Configuration Keys (config.yml)
+## ⚙️ Configuration (config.yml)
 
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `language` | string | `en_US` | Language file code from `lang/` folder. |
-| `require-water-above` | boolean | `false` | Only allow placement if target block has water above. |
-| `protect-underwater-saplings` | boolean | `true` | Prevents physics/fluid updates from breaking adjacent underwater saplings while placement conditions are still valid. |
-| `log-stats` | boolean | `true` | Logs counts of loaded soils/saplings on enable/reload. |
-| `log-detail` | boolean | `false` | Lists every loaded soil and sapling individually if true. |
-| `auto-reload` | boolean | `true` | Watches `config.yml` for external changes (5s interval) and auto reloads. |
-| `metrics-enabled` | boolean | `true` | Enables bStats anonymous usage metrics. |
-| `soils` | map<string, boolean> | varies | Enable flags for soil materials. |
-| `saplings` | map<string, boolean> | varies | Enable flags for sapling materials (supports custom additions). |
+| --- | --- | --- | --- |
+| `language` | string | `en_US` | Language code (must match file in `lang/`, e.g., `en_US`, `de_DE`) |
+| `log-stats` | boolean | `true` | Log counts of enabled soils/saplings on startup/reload |
+| `log-detail` | boolean | `false` | List each enabled soil and sapling individually |
+| `auto-reload` | boolean | `true` | Watch and auto‑reload `config.yml` when externally modified (~5s interval) |
+| `require-water-above` | boolean | `false` | Only allow placement if water is directly above target block |
+| `protect-underwater-saplings` | boolean | `true` | Cancel physics/fluid events to prevent breaking adjacent underwater saplings (conditions must still be valid) |
+| `soils` | map | varies | Enable flags for soil materials (e.g., `DIRT: true`) |
+| `saplings` | map | varies | Enable flags for sapling materials (e.g., `OAK_SAPLING: true`) |
+| `metrics-enabled` | boolean | `true` | Enable anonymous bStats metrics (plugin ID 28005) |
+| `update-check` | boolean | `true` | Master switch for update checking |
+| `update-interval-hours` | integer | `24` | Interval in hours between update checks (min 1) |
+| `include-prereleases` | boolean | `false` | Include beta/alpha versions when checking for updates |
+| `filter-by-server-version` | boolean | `true` | Prefer builds matching the server's Minecraft version |
+| `notify-console` | boolean | `true` | Log update availability to console |
+| `notify-op-join` | boolean | `true` | Notify ops on join when an update is available |
+| `update-sources` | integer | `0` | `0` = Modrinth+Hangar, `1` = Modrinth only, `2` = Hangar only |
 
-### Adding New Materials
+**Adding Materials:**  
+Add an uppercase Bukkit `Material` key under `soils` or `saplings` with value `true`. Unknown names are ignored silently, allowing safe usage across Minecraft versions.
 
-Add a new uppercase Bukkit `Material` key to `soils:` or `saplings:` with value `true`. On next reload (manual or auto) it becomes active.
+**Config Defaults Merge:**  
+On startup, manual reload, and auto‑reload, new default keys from the bundled `config.yml` are merged into your existing `plugins/UnderwaterTrees/config.yml` without overwriting your values. New options (e.g., `protect-underwater-saplings`) are added automatically after updates.
 
-Notes:
-- Materials are resolved via `Material.matchMaterial(<NAME>)`. Unknown names are ignored without errors.
-- This allows safely keeping entries like `MANGROVE_PROPAGULE` or `CHERRY_SAPLING` on servers that might not provide them.
+## 🛡️ Stability Protection
 
-### Auto-Reload Behavior
+When `protect-underwater-saplings: true`:
+- **Physics:** `BlockPhysicsEvent` is canceled for saplings if soil beneath is valid and (optionally) water above is present, preventing neighbor updates from breaking them.
+- **Fluids:** `BlockFromToEvent` into sapling blocks is canceled to avoid fluid‑induced breakage.
+- **Natural Breakage:** If soil becomes invalid or (with `require-water-above: true`) water is removed, protection no longer applies and the sapling breaks naturally.
 
-If `auto-reload` is `true`, the plugin checks the modified timestamp of `config.yml` every 5 seconds. On change it reloads config, reapplies listener state and reloads messages. Set `auto-reload: false` to disable.
+## 🎮 Commands & Permissions
 
-Config defaults merge: On startup, manual reload, and auto-reload, the plugin merges new default keys from the bundled `config.yml` into your existing `plugins/UnderwaterTrees/config.yml` without overwriting your values. This way new options are added automatically after updates while your settings stay intact.
+| Command | Permission | Default | Description |
+| --- | --- | --- | --- |
+| `/underwatertrees reload` | `underwatertrees.reload` | op | Reload config, listener, and language |
+| *(join notification)* | `underwatertrees.update` | op | Receive update notifications on join |
 
-### Internationalization
+**Recommended Permission Manager:** [LuckPerms](https://luckperms.net/)
 
-Language codes map to YAML files inside `lang/`. Unsupported or missing keys fall back to English (`en_US`). Reloading updates active messages.
+## 🔔 Update Check
 
-### Stats Logging
+- **Sources:** Modrinth (primary) and Hangar (fallback). If both fail, skips silently.
+- **Version Comparison:**
+  - Numeric first (major > minor > patch)
+  - Release > pre‑release (`alpha` < `beta` < `rc`)
+  - Pre‑release indices compared (e.g., `beta2` > `beta1`)
+  - Letter suffix without hyphen (e.g., `1.0a`) is treated as newer than plain release (`1.0`)
 
-With `log-stats: true` a summary line is logged showing counts and flags. Enable `log-detail: true` to also list every material.
+## 🌐 Internationalization
 
-### Metrics (bStats)
+Language codes map to YAML files in `src/main/resources/lang/`. Unsupported or missing keys fall back to English (`en_US`). Reloading updates active messages.
 
-UnderwaterTrees uses bStats (https://bstats.org) to collect anonymous usage metrics if `metrics-enabled: true`.
+## 📈 Metrics (bStats)
 
-Collected base data (handled by bStats): server UUID, player count, Java/OS info, plugin version.
+UnderwaterTrees uses [bStats](https://bstats.org) to collect anonymous usage metrics if `metrics-enabled: true`.
 
-Custom charts:
-- `language` – active language code.
-- `sapling_count` – number of enabled sapling materials.
-- `soil_block_count` – number of enabled soil materials.
+**Base Data (handled by bStats):** server UUID, player count, Java/OS info, plugin version.
 
-Disable locally: set `metrics-enabled: false` and reload. For full opt-out (all plugins) use `plugins/bStats/config.yml`.
+**Custom Charts:**
+- `language` – active language code
+- `sapling_count` – number of enabled sapling materials
+- `soil_block_count` – number of enabled soil materials
 
-## Commands & Permissions
+**Disable:** Set `metrics-enabled: false` and reload. For global opt‑out (all plugins), edit `plugins/bStats/config.yml`.
 
-- Command: `/underwatertrees reload` – Reloads config, listener setup and language.
-- Permission: `underwatertrees.reload` (default: op) - Allows reloading the config.
-- Permission: `underwatertrees.update` (default: op) – Receive update notifications on join.
-- Recommended permission management: LuckPerms – https://luckperms.net/
+## 🐛 Troubleshooting
 
-## Update Check
+| Issue | Solution |
+| --- | --- |
+| Plugin does not load | Ensure Paper 1.21.x (Spigot/Vanilla unsupported); place JAR in `plugins` folder |
+| `/underwatertrees` command unknown or no permission | Check server log; ensure plugin enabled and `underwatertrees.reload` granted (default op) |
+| Materials not applied | Names must match Bukkit `Material` (uppercase, underscore); enable `log-detail` to verify |
+| New config options do not appear | Restart or `/underwatertrees reload` to trigger defaults merge; ensure JAR updated |
+| Auto‑reload not triggering | Ensure `auto-reload: true`; some environments have coarse timestamp updates |
+| Waterlogged visuals missing | Vanilla client cannot render waterlogged saplings; this is a client limitation |
+| Language not applied | Ensure `language` matches a file in `lang/` (e.g., `en_US`); missing keys fall back to English |
 
-UnderwaterTrees can periodically check for new releases and notify the console on startup and players with the `underwatertrees.update` permission when they join.
+## 📝 Project Notes
 
-- Sources: Modrinth (primary) and Hangar (fallback). If both fail, it skips silently.
-- Version handling: Compares the local plugin version against the latest available; optional pre-release inclusion and server-version filtering.
+Development of UnderwaterTrees included the use of generative AI assistance (e.g., GitHub Copilot) for scaffolding, refactoring, and documentation drafts. All code and text were reviewed, adapted, and validated by the project maintainer to ensure accuracy, licensing compliance, and suitability for the Paper API.
 
-Configuration (in `config.yml`):
-- `update-check` (boolean, default `true`): Enables/disables update checking.
-- `update-interval-hours` (integer, default `24`): Interval for periodic checks.
-- `include-prereleases` (boolean, default `false`): Allow pre-release versions.
-- `filter-by-server-version` (boolean, default `true`): Prefer builds matching your server’s MC version.
-- `notify-console` (boolean, default `true`): Log update availability to console.
-- `notify-op-join` (boolean, default `true`): Notify ops on join.
-- `update-sources` (integer): `0` = Modrinth+Hangar, `1` = Modrinth only, `2` = Hangar only.
+## 📜 License
 
-## Troubleshooting
+Licensed under the Apache License, Version 2.0. See `LICENSE` for details.
 
-- Plugin does not load:
-	- Use Paper 1.21.x (Spigot/Vanilla are not supported).
-	- Place `UnderwaterTrees-*.jar` into the server `plugins` folder.
-- `/underwatertrees` command unknown or no permission:
-	# UnderwaterTrees (Paper 1.21.x)
+Third‑party notices are listed in `NOTICE` (e.g., bStats single‑file Metrics usage terms).
 
-	UnderwaterTrees lets players place saplings underwater with fine‑grained controls, localization, live reload, update checks, metrics, and optional stability protection.
 
-	## Requirements
-
-	- Java 21 (JDK)
-	- Paper 1.21.x
-	- Gradle (optional; the wrapper is included)
-
-	## Build
-
-	From the project root:
-
-	- Linux/macOS
-	```bash
-	./gradlew build
-	```
-
-	- Windows
-	```bat
-	gradlew.bat build
-	```
-
-	Artifacts: `build/libs/UnderwaterTrees-<version>.jar`
-
-	Versioning: The plugin version comes from `version.properties` (`version=<x.y.z>`). If missing, it falls back to `gradle.properties`. The resolved version is injected into `paper-plugin.yml` and the JAR name.
-
-	## Installation & Usage
-
-	1) Drop the JAR into your server `plugins` folder.
-	2) Start the server to generate `plugins/UnderwaterTrees/config.yml` and `plugins/UnderwaterTrees/lang/`.
-	3) Adjust the config (materials, language, logging, auto‑reload, metrics, stability) as needed.
-	4) Reload in-game or console:
-	```
-	/underwatertrees reload
-	```
-
-	Notes:
-	- Materials are matched by name at runtime; unknown names are ignored silently.
-	- With `auto-reload: true`, file changes are detected roughly every 5 seconds and reloaded.
-	- Metrics can be disabled via `metrics-enabled: false` (or globally in `plugins/bStats/config.yml`).
-
-	## Compatibility
-
-	- Platform: Paper only (uses Paper APIs). Spigot is not supported.
-	- API target: `api-version: 1.21`, built against Paper `1.21.10`.
-	- Older versions: Not supported. Unknown materials on older servers are ignored.
-
-	## Features
-
-	- Place configured saplings on configured soil blocks underwater.
-	- Per‑material toggles via `saplings:` and `soils:` boolean maps.
-	- Fallback defaults if both sections are empty.
-	- Localization with live reload (language files in `src/main/resources/lang`).
-	- Live reload of config and messages via `/underwatertrees reload`.
-	- Optional logging: `log-stats` and `log-detail`.
-	- Auto‑reload on external config changes (`auto-reload`).
-	- Optional bStats metrics (`metrics-enabled`) with custom charts (language, sapling count, soil count).
-	- Stability protection (`protect-underwater-saplings`): prevents unintended breaking from physics/fluids while placement conditions remain valid.
-
-	## Configuration (config.yml)
-
-	| Key | Type | Default | Description |
-	| --- | --- | --- | --- |
-	| `language` | string | `en_US` | Language code found in `lang/` |
-	| `require-water-above` | boolean | `false` | Only allow placement if the target has water above |
-	| `log-stats` | boolean | `true` | Log counts of loaded soils/saplings |
-	| `log-detail` | boolean | `false` | Log each loaded material |
-	| `auto-reload` | boolean | `true` | Watch and auto‑reload `config.yml` (~5s) |
-	| `metrics-enabled` | boolean | `true` | Enable anonymous bStats metrics (ID 28005) |
-	| `protect-underwater-saplings` | boolean | `true` | Cancel harmful physics/fluids so adjacent underwater saplings don’t break if conditions are still valid |
-	| `soils` | map<string, boolean> | varies | Enable flags for soil materials |
-	| `saplings` | map<string, boolean> | varies | Enable flags for sapling materials |
-
-	Adding materials: Put an uppercase Bukkit `Material` under `soils:` or `saplings:` with value `true`. Unknown names are ignored; this is safe across MC versions.
-
-	### Stability Protection Details
-
-	- Physics: If soil beneath is valid and (optionally) water above is present, `BlockPhysicsEvent` is canceled for the sapling, preventing neighbor updates from breaking it.
-	- Fluids: `BlockFromToEvent` into a sapling block is canceled to avoid fluid‑induced breakage.
-	- If soil becomes invalid or (with `require-water-above: true`) water is removed, protection no longer applies and the sapling can break naturally.
-
-	## Commands & Permissions
-
-	- `/underwatertrees reload`
-	  - Permission: `underwatertrees.reload` (default: op)
-	- Update notifications on join
-	  - Permission: `underwatertrees.update` (default: op)
-
-	## Update Check
-
-	- Sources: Modrinth (primary) and Hangar (fallback). If both fail, it skips silently.
-	- Config: `update-check`, `update-interval-hours`, `include-prereleases`, `filter-by-server-version`, `notify-console`, `notify-op-join`, `update-sources` (0=both, 1=Modrinth, 2=Hangar).
-	- Version comparison:
-	  - Numeric first (major > minor > patch)
-	  - Release > pre‑release (`alpha` < `beta` < `rc`), with numeric indices (e.g., `beta2` > `beta1`)
-	  - Letter suffix without hyphen (e.g., `1.0a`) is treated as newer than the plain release (`1.0`)
-
-	## Config Defaults Merge (Auto‑add New Keys)
-
-	On startup, manual reload, and auto‑reload, the plugin merges new default keys from the bundled `config.yml` into your existing `plugins/UnderwaterTrees/config.yml` without overwriting your values. New options (e.g., `protect-underwater-saplings`) appear automatically after updates.
-
-	## Metrics (bStats)
-
-	- Enabled via `metrics-enabled: true` (plugin ID 28005). Custom charts: `language`, `sapling_count`, `soil_block_count`.
-	- Global opt‑out is available in `plugins/bStats/config.yml`.
-
-	## Troubleshooting
-
-	- Command not found / no permission: ensure plugin enabled and `underwatertrees.reload` granted (default op).
-	- Materials not applied: names must match Bukkit `Material`; enable `log-detail` to verify.
-	- New options missing: restart or `/underwatertrees reload` to trigger defaults merge.
-	- Auto‑reload not triggering: ensure `auto-reload: true`; some environments have coarse timestamp updates.
-	- Waterlogged visuals: the vanilla client cannot render waterlogged saplings; this is a client limitation.
-
-	## Project Notes
-
-	Development of UnderwaterTrees included the use of generative AI assistance (e.g., GitHub Copilot) for scaffolding, refactoring and documentation drafts. All code and text were reviewed, adapted and validated by the project maintainer to ensure accuracy, licensing compliance and suitability for the Paper API.
-
-	## License
-
-	Apache License 2.0. See `LICENSE`.
-
-	Third‑party notices are listed in `NOTICE` (e.g., bStats single‑file Metrics usage terms).
