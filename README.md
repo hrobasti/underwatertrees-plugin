@@ -22,6 +22,8 @@ From the project root directory:
 
 - Windows
 ```bat
+gradlew.bat build
+```
 Underwater stability protection: prevents unintended breaking from water/physics when enabled via `protect-underwater-saplings`.
 Versioning: The plugin version is taken from `version.properties` (key `version`) if present, otherwise from `gradle.properties`. The resolved version is injected into both the JAR file name and `paper-plugin.yml`.
 
