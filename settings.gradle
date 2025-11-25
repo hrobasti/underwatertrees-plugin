@@ -1,0 +1,4 @@
+rootProject.name = 'underwatertrees'
+
+include(':plugins:turtle-lib')
+project(':plugins:turtle-lib').projectDir = file('../turtle-lib')

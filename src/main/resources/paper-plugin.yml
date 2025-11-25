@@ -1,0 +1,16 @@
+name: UnderwaterTrees
+version: ${version}
+main: com.github.hrobasti.underwatertrees.UnderwaterTreesPlugin
+description: Allows placing tree saplings underwater.
+api-version: '1.21'
+authors:
+  - hro_basti
+website: "https://github.com/hrobasti/underwatertrees-plugin"
+permissions:
+  underwatertrees.admin:
+    description: Grants /underwatertrees reload and future admin commands
+    default: op
+  underwatertrees.update.notify:
+    description: Allows receiving update notifications on join
+    default: op
+

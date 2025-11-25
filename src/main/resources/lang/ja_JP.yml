@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "UnderwaterTrees プラグインを有効化したよ。"
+  disabled: "UnderwaterTrees プラグインを無効化したよ。"
+  language-set: "言語を <code> にしたよ。"
+update:
+  available: "<prefix> <white>: アップデートがあるよ！ <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: 詳細はサーバーログを確認してね。</white>"
+  failed: "<prefix> <light_red><source> のアップデート確認に失敗したよ。</light_red>"
+command:
+  usage: "使い方: /<label> reload"
+  reloaded: "UnderwaterTrees の設定を再読み込みしたよ。"
+  no-permission: "この操作をする権限がないよ。"
+warn:
+  unsupported-server-version: "<prefix> <yellow>警告: UnderwaterTrees は公式に <gold><required_server></gold> サーバーで動作する
+    Minecraft <gold><supported_versions></gold> のみをサポートしています。現在のサーバーは <gold><server_name></gold>
+    <gold><mc_version></gold> です。自己責任で続行してください。</yellow>"

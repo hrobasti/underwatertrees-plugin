@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'com.github.hrobasti.underwatertrees'
+
+def versionProps = new Properties()
+def versionFile = file('version.properties')
+if (versionFile.exists()) {
+    versionFile.withInputStream { versionProps.load(it) }
+}
+def resolvedVersion = versionProps.getProperty('version')
+if (resolvedVersion == null || resolvedVersion.trim().isEmpty()) {
+    resolvedVersion = project.findProperty('version') ?: '1.0-SNAPSHOT'
+}
+version = resolvedVersion
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = uri('https://repo.papermc.io/repository/maven-public/')
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT'
+    implementation project(':plugins:turtle-lib')
+    implementation 'net.kyori:adventure-text-minimessage:4.17.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('processResources') {
+    filesMatching('paper-plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+tasks.named('shadowJar') {
+    archiveBaseName.set('underwatertrees-paper')
+    archiveVersion.set(project.version.toString())
+    archiveClassifier.set('')
+}
+
+tasks.named('jar') {
+    enabled = false // rely on shaded underwatertrees-paper artifact
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
+}

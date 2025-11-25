@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "UnderwaterTrees plugin ingeschakeld."
+  disabled: "UnderwaterTrees plugin uitgeschakeld."
+  language-set: "Taal ingesteld op <code>."
+update:
+  available: "<prefix> <white>: Update beschikbaar! <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: Zie het serverlogboek voor details.</white>"
+  failed: "<prefix> <light_red>Updatecontrole mislukt voor <source>.</light_red>"
+command:
+  usage: "Gebruik: /<label> reload"
+  reloaded: "UnderwaterTrees configuratie herladen."
+  no-permission: "Je hebt geen toestemming hiervoor."
+warn:
+  unsupported-server-version: "<prefix> <yellow>Waarschuwing: UnderwaterTrees wordt officieel ondersteund op <gold><required_server></gold>-servers
+    die Minecraft <gold><supported_versions></gold> draaien. Jouw server meldt <gold><server_name></gold> <gold><mc_version></gold>.
+    Ga verder op eigen risico.</yellow>"
