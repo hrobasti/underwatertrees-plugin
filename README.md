@@ -2,6 +2,8 @@
 
 Let your players plant saplings below the surface without weird hacks. UnderwaterTrees keeps placement safe, auto-replants when you want it, and locks configs down so griefing doesn't spiral out of control.
 
+![Underwater Trees demo](img/uwtrees_01.gif)
+
 ## Why server owners love it
 - 🌱 Custom soil + sapling allowlists mean only the trees you approve can grow underwater.
 - 🛡️ Stability guard cancels physics + fluid breakage so underwater builds stay intact.
