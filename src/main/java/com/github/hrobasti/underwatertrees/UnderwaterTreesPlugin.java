@@ -26,7 +26,7 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     private static final String STARTUP_BANNER_RESOURCE = "banner.txt";
     private static final String SUPPORTED_SERVER_BRAND = "Paper";
     private static final String SUPPORTED_VERSION_MIN = "1.21";
-    private static final String SUPPORTED_VERSION_MAX = "1.21.10";
+    private static final String SUPPORTED_VERSION_MAX = "1.21.11";
     private static final String SUPPORTED_VERSION_LABEL = SUPPORTED_VERSION_MIN + " - " + SUPPORTED_VERSION_MAX;
     private UnderwaterSaplingsListener saplingsListener;
     private MessageService messages;
