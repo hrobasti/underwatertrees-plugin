@@ -24,10 +24,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UnderwaterTreesPlugin extends JavaPlugin {
 
     private static final String STARTUP_BANNER_RESOURCE = "banner.txt";
-    private static final String SUPPORTED_SERVER_BRAND = "Paper";
-    private static final String SUPPORTED_VERSION_MIN = "1.21";
-    private static final String SUPPORTED_VERSION_MAX = "1.21.11";
-    private static final String SUPPORTED_VERSION_LABEL = SUPPORTED_VERSION_MIN + " - " + SUPPORTED_VERSION_MAX;
+    private static final String REQUIRED_SERVER_BRAND = "Paper";
+    private static final String SUPPORTED_VERSION_MIN = "26.1";
+    private static final String SUPPORTED_VERSION_MAX = "26.1.2";
+    private static final String SUPPORTED_VERSION_LABEL = "26.1 - 26.1.2";
+    private static final ServerMatcher.IncompatibleAction INCOMPATIBLE_SERVER_ACTION =
+        ServerMatcher.IncompatibleAction.WARN_AND_CONTINUE;
     private UnderwaterSaplingsListener saplingsListener;
     private MessageService messages;
     private ConfigWatcher configWatcher;
@@ -141,7 +143,7 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         }
         serverMatcher = ServerMatcher.builder(this)
             .allowRange(SUPPORTED_VERSION_MIN, SUPPORTED_VERSION_MAX)
-            .incompatibleAction(ServerMatcher.IncompatibleAction.WARN_AND_CONTINUE)
+            .incompatibleAction(INCOMPATIBLE_SERVER_ACTION)
             .onMismatch(this::handleServerMismatch)
             .build();
         serverMatcher.enforce();
@@ -149,7 +151,7 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
 
     private void handleServerMismatch(ServerMatcher.MatchResult result) {
         java.util.Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("required_server", SUPPORTED_SERVER_BRAND);
+        placeholders.put("required_server", REQUIRED_SERVER_BRAND);
         placeholders.put("supported_versions", SUPPORTED_VERSION_LABEL);
         placeholders.put("server_name", result.serverName() != null ? result.serverName() : "unknown");
         placeholders.put("mc_version", result.minecraftVersion() != null ? result.minecraftVersion() : "unknown");
@@ -161,7 +163,7 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
             }
             getLogger().warning(messages.plain("warn.unsupported-server-version", placeholders));
         } else {
-            getLogger().warning("UnderwaterTrees officially supports " + SUPPORTED_SERVER_BRAND
+            getLogger().warning("UnderwaterTrees officially supports " + REQUIRED_SERVER_BRAND
                 + " " + SUPPORTED_VERSION_LABEL + ". Detected "
                 + result.serverName() + " " + result.minecraftVersion() + '.');
         }
