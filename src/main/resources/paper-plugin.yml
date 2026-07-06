@@ -2,7 +2,7 @@ name: UnderwaterTrees
 version: ${version}
 main: com.github.hrobasti.underwatertrees.UnderwaterTreesPlugin
 description: Allows placing tree saplings underwater.
-api-version: '26.1'
+api-version: '26.2'
 authors:
   - hro_basti
 website: "https://github.com/hrobasti/underwatertrees-plugin"
