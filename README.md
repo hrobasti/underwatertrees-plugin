@@ -15,7 +15,7 @@ Let your players plant saplings below the surface without weird hacks. Underwate
 
 ## Requirements
 
-- Paper 26.2 server (Spigot/vanilla forks are not supported; previous Paper versions, incl. 26.1.x, are no longer supported).
+- Paper 26.2 server (Spigot/vanilla forks are not supported.
 - Java 25 runtime.
 - Optional: a permissions plugin (LuckPerms, etc.) for fine-grained access to `/timberella` commands.
 
