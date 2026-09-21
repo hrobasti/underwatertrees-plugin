@@ -104,4 +104,5 @@ saplings:
   ACACIA_SAPLING: true
   DARK_OAK_SAPLING: true
   CHERRY_SAPLING: true
+  POPLAR_SAPLING: true
   MANGROVE_PROPAGULE: false  # already water-placeable in vanilla, should be disabled to keep that behavior

@@ -153,6 +153,7 @@ public class UnderwaterSaplingsListener implements Listener {
                 "ACACIA_SAPLING",
                 "DARK_OAK_SAPLING",
                 "CHERRY_SAPLING",
+                "POPLAR_SAPLING",
                 "MANGROVE_PROPAGULE"
             };
             for (String n : defaultSaplings) {
