@@ -1,18 +1,52 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "UnderwaterTrees plugin ingeschakeld."
-  disabled: "UnderwaterTrees plugin uitgeschakeld."
-  language-set: "Taal ingesteld op <code>."
+    enabled: "UnderwaterTrees plugin ingeschakeld."
+    disabled: "UnderwaterTrees plugin uitgeschakeld."
+    language_set: "Taal ingesteld op <code>."
 update:
-  available: "<prefix> <white>: Update beschikbaar! <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: Zie het serverlogboek voor details.</white>"
-  failed: "<prefix> <light_red>Updatecontrole mislukt voor <source>.</light_red>"
+    available: "<prefix> <white>Update beschikbaar! <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>Zie het serverlogboek voor details.</white>"
 command:
-  usage: "Gebruik: /<label> reload"
-  reloaded: "UnderwaterTrees configuratie herladen."
-  no-permission: "Je hebt geen toestemming hiervoor."
+    usage: "<prefix> <white>Gebruik: /<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>Configuratie opnieuw geladen.</white>"
+    reload_failed: "<prefix> <red>Niet opnieuw geladen: config.yml is geen geldige YAML (<error>). De vorige instellingen blijven actief.</red>"
+    no_permission: "<prefix> <red>Je hebt geen rechten om dat te doen.</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>Waarschuwing: UnderwaterTrees wordt officieel ondersteund op <gold><required_server></gold>-servers
-    die Minecraft <gold><supported_versions></gold> draaien. Jouw server meldt <gold><server_name></gold> <gold><mc_version></gold>.
-    Ga verder op eigen risico.</yellow>"
+    unsupported_server_version:
+        "<yellow>Waarschuwing: UnderwaterTrees wordt officieel ondersteund op <gold><required_server></gold>-servers
+        die Minecraft <gold><supported_versions></gold> draaien. Jouw server meldt <gold><server_name></gold> <gold><mc_version></gold>.
+        Ga verder op eigen risico.</yellow>"
+log:
+    update_found: "Update gevonden. Huidige versie: <current>."
+    update_none: "Geen update gevonden."
+    update_provider_ok: "- <provider>: Versie <version> [<url>]"
+    update_provider_error: "- <provider>: Ophalen mislukt (<error>)."
+    update_provider_failed: "Updatecontrole via <provider> mislukt (<error>); nieuwe poging bij de volgende controle."
+    update_provider_none: "- <provider>: Geen update gevonden."
+    modules_state_active: "ingeschakeld"
+    modules_state_inactive: "uitgeschakeld"
+    config_reloaded_external: "Configuratiebestand extern gewijzigd, opnieuw geladen."
+    reload_changes_header: "Bestandswijzigingen gedetecteerd:"
+    reload_changes_line: <file> (<changes>)
+    reload_changes_locale_line: <file>
+    reload_changes_none: Geen configuratiewijzigingen gedetecteerd.
+    config_invalid_reload: "config.yml is geen geldige YAML (<error>); de vorige instellingen blijven actief totdat het bestand is gecorrigeerd."
+    config_invalid_startup: "config.yml is geen geldige YAML (<error>); totdat het bestand is gecorrigeerd, draait de plugin met de standaardinstellingen, zonder bStats en updatecontroles."
+    config_missing_external: "config.yml is verwijderd; de huidige instellingen blijven actief. /underwatertrees reload of een herstart maakt een nieuwe config.yml aan."
+    config_empty_external: "config.yml is leeg; de huidige instellingen blijven actief. /underwatertrees reload of een herstart vult het bestand met de standaardinstellingen."
+    defaults_updated: "Standaarden bijgewerkt (<file>): <count> nieuwe sleutel(s) -> <keys>"
+    upgrade_header: "Geüpgraded vanaf <plugin> 1.x: je oude bestanden zijn verplaatst naar <backup> en er zijn nieuwe bestanden aangemaakt."
+    upgrade_from_1_0: "Je <plugin>-bestanden komen uit versie 1.0.x: ze zijn verplaatst naar <backup> en er zijn nieuwe bestanden aangemaakt. Instellingen uit 1.0.x kunnen niet worden overgenomen, dus pas je wijzigingen opnieuw toe vanuit de back-up."
+    upgrade_kept: "- Instelling behouden: <old> -> <new>: <value>"
+    upgrade_dropped: "- Niet overgenomen (deze instelling bestaat niet meer): <key> = <value>"
+    upgrade_new_entries: "- Nieuwe standaarditems ontbreken in je lijst <list>: <entries>"
+    upgrade_replaced_file: "- Je aangepaste <file> is vervangen; jouw versie staat in de back-up."
+    upgrade_dropped_invalid: "- Niet overgenomen (de waarde past niet bij de nieuwe instelling): <key> = <value>"
+    upgrade_removed: "- Je verwijdering behouden: <key>"
+    upgrade_backup_only: "- <file> heeft geen tegenhanger in de nieuwe versie en blijft alleen in de back-up."
+    stats_header: "Geladen configuratie:"
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "Grondsoorten:"
+    detail_saplings_header: "Boompjes:"

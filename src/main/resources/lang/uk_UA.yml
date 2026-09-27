@@ -1,18 +1,52 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "Плагін UnderwaterTrees увімкнено."
-  disabled: "Плагін UnderwaterTrees вимкнено."
-  language-set: "Мову встановлено на <code>."
+    enabled: "Плагін UnderwaterTrees увімкнено."
+    disabled: "Плагін UnderwaterTrees вимкнено."
+    language_set: "Мову встановлено на <code>."
 update:
-  available: "<prefix> <white>: Доступне оновлення! <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: Для деталей переглянь журнал сервера.</white>"
-  failed: "<prefix> <light_red>Помилка перевірки оновлень для <source>.</light_red>"
+    available: "<prefix> <white>Доступне оновлення! <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>Для деталей переглянь журнал сервера.</white>"
 command:
-  usage: "Використання: /<label> reload"
-  reloaded: "Конфігурацію UnderwaterTrees перезавантажено."
-  no-permission: "У тебе немає дозволу на цю дію."
+    usage: "<prefix> <white>Використання: /<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>Конфігурацію перезавантажено.</white>"
+    reload_failed: "<prefix> <red>Не перезавантажено: config.yml не є коректним YAML (<error>). Попередні налаштування залишаються активними.</red>"
+    no_permission: "<prefix> <red>У тебе немає прав на цю дію.</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>Попередження: UnderwaterTrees офіційно підтримує лише сервери <gold><required_server></gold>,
-    що працюють на Minecraft <gold><supported_versions></gold>. Твій сервер повідомляє <gold><server_name></gold> <gold><mc_version></gold>.
-    Продовжуй на власний ризик.</yellow>"
+    unsupported_server_version:
+        "<yellow>Попередження: UnderwaterTrees офіційно підтримує сервери <gold><required_server></gold>,
+        що працюють на Minecraft <gold><supported_versions></gold>. Твій сервер повідомляє <gold><server_name></gold> <gold><mc_version></gold>.
+        Продовжуй на власний ризик.</yellow>"
+log:
+    update_found: "Знайдено оновлення. Поточна версія: <current>."
+    update_none: "Оновлення не знайдено."
+    update_provider_ok: "- <provider>: Версія <version> [<url>]"
+    update_provider_error: "- <provider>: Не вдалося отримати (<error>)."
+    update_provider_failed: "Перевірка оновлень через <provider> не вдалася (<error>); повторна спроба під час наступної перевірки."
+    update_provider_none: "- <provider>: Оновлення не знайдено."
+    modules_state_active: "увімкнено"
+    modules_state_inactive: "вимкнено"
+    config_reloaded_external: "Файл конфігурації змінено ззовні, перезавантажено."
+    reload_changes_header: "Виявлено зміни у файлах:"
+    reload_changes_line: <file> (<changes>)
+    reload_changes_locale_line: <file>
+    reload_changes_none: Змін у конфігурації не виявлено.
+    config_invalid_reload: "config.yml не є коректним YAML (<error>); попередні налаштування залишаються активними, доки файл не буде виправлено."
+    config_invalid_startup: "config.yml не є коректним YAML (<error>); доки файл не буде виправлено, плагін працює з налаштуваннями за замовчуванням, без bStats і перевірки оновлень."
+    config_missing_external: "config.yml видалено; поточні налаштування залишаються активними. /underwatertrees reload або перезапуск створює новий config.yml."
+    config_empty_external: "config.yml порожній; поточні налаштування залишаються активними. /underwatertrees reload або перезапуск заповнює його налаштуваннями за замовчуванням."
+    defaults_updated: "Оновлено значення за замовчуванням (<file>), нові ключі: <count> -> <keys>"
+    upgrade_header: "Оновлено з <plugin> 1.x: твої старі файли переміщено до <backup>, створено нові файли."
+    upgrade_from_1_0: "Твої файли <plugin> походять із версії 1.0.x: їх переміщено до <backup>, створено нові файли. Налаштування з 1.0.x не можна перенести, тож застосуй свої зміни повторно з резервної копії."
+    upgrade_kept: "- Налаштування збережено: <old> -> <new>: <value>"
+    upgrade_dropped: "- Не перенесено (такого налаштування більше немає): <key> = <value>"
+    upgrade_new_entries: "- У твоєму списку <list> бракує нових стандартних записів: <entries>"
+    upgrade_replaced_file: "- Твій змінений файл <file> замінено; твоя версія є в резервній копії."
+    upgrade_dropped_invalid: "- Не перенесено (значення не підходить для нового налаштування): <key> = <value>"
+    upgrade_removed: "- Видалення збережено: <key>"
+    upgrade_backup_only: "- <file> не має відповідника в новій версії й залишається лише в резервній копії."
+    stats_header: "Завантажена конфігурація:"
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "Ґрунти:"
+    detail_saplings_header: "Саджанці:"

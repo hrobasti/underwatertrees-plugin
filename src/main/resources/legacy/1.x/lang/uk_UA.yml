@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "Плагін UnderwaterTrees увімкнено."
+  disabled: "Плагін UnderwaterTrees вимкнено."
+  language-set: "Мову встановлено на <code>."
+update:
+  available: "<prefix> <white>: Доступне оновлення! <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: Для деталей переглянь журнал сервера.</white>"
+  failed: "<prefix> <light_red>Помилка перевірки оновлень для <source>.</light_red>"
+command:
+  usage: "Використання: /<label> reload"
+  reloaded: "Конфігурацію UnderwaterTrees перезавантажено."
+  no-permission: "У тебе немає дозволу на цю дію."
+warn:
+  unsupported-server-version: "<prefix> <yellow>Попередження: UnderwaterTrees офіційно підтримує лише сервери <gold><required_server></gold>,
+    що працюють на Minecraft <gold><supported_versions></gold>. Твій сервер повідомляє <gold><server_name></gold> <gold><mc_version></gold>.
+    Продовжуй на власний ризик.</yellow>"

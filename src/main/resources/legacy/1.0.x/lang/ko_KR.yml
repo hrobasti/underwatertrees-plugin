@@ -1,0 +1,12 @@
+plugin:
+  enabled: "UnderwaterTrees 플러그인 활성화됐어."
+  disabled: "UnderwaterTrees 플러그인 비활성화됐어."
+  language_set: "언어를 {code}로 설정했어."
+update:
+  available: "새 버전 {remote} 나왔어 (지금 {local} 쓰는 중)."
+  link: "자세히: {url}"
+  failed: "{source} 업데이트 확인에 실패했어."
+command:
+  usage: "사용법: /{label} reload"
+  reloaded: "UnderwaterTrees 설정 다시 불러왔어."
+  no_permission: "이 작업을 할 권한이 없어."

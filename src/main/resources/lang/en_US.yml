@@ -1,18 +1,52 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "UnderwaterTrees plugin enabled."
-  disabled: "UnderwaterTrees plugin disabled."
-  language-set: "Language set to <code>."
+    enabled: "UnderwaterTrees plugin enabled."
+    disabled: "UnderwaterTrees plugin disabled."
+    language_set: "Language set to <code>."
 update:
-  available: "<prefix> <white>: Update available! <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: For details, see the server log.</white>"
-  failed: "<prefix> <light_red>Update check failed for <source>.</light_red>"
+    available: "<prefix> <white>Update available! <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>For details, see the server log.</white>"
 command:
-  usage: "Usage: /<label> reload"
-  reloaded: "UnderwaterTrees configuration reloaded."
-  no-permission: "You do not have permission to do that."
+    usage: "<prefix> <white>Usage: /<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>Configuration reloaded.</white>"
+    reload_failed: "<prefix> <red>Not reloaded: config.yml isn't valid YAML (<error>). The previous settings stay active.</red>"
+    no_permission: "<prefix> <red>You don't have permission to do that.</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>Warning: UnderwaterTrees officially supports <gold><required_server></gold>
-    servers running Minecraft <gold><supported_versions></gold>. Your server reports <gold><server_name></gold> <gold><mc_version></gold>.
-    Proceed at your own risk.</yellow>"
+    unsupported_server_version:
+        "<yellow>Warning: UnderwaterTrees officially supports <gold><required_server></gold> servers
+        running Minecraft <gold><supported_versions></gold>. Your server reports <gold><server_name></gold> <gold><mc_version></gold>.
+        Proceed at your own risk.</yellow>"
+log:
+    update_found: "Update found. Current version: <current>."
+    update_none: "No update found."
+    update_provider_ok: "- <provider>: Version <version> [<url>]"
+    update_provider_error: "- <provider>: Failed to fetch (<error>)."
+    update_provider_failed: "Update check via <provider> failed (<error>); retrying at the next check."
+    update_provider_none: "- <provider>: No update found."
+    modules_state_active: "enabled"
+    modules_state_inactive: "disabled"
+    config_reloaded_external: "Config file changed externally, reloaded."
+    reload_changes_header: "Detected file changes:"
+    reload_changes_line: <file> (<changes>)
+    reload_changes_locale_line: <file>
+    reload_changes_none: No configuration changes detected.
+    config_invalid_reload: "config.yml isn't valid YAML (<error>); the previous settings stay active until it is fixed."
+    config_invalid_startup: "config.yml isn't valid YAML (<error>); running with the default settings, without bStats and update checks, until it is fixed."
+    config_missing_external: "config.yml was deleted; the current settings stay active. /underwatertrees reload or a restart creates a fresh config.yml."
+    config_empty_external: "config.yml is empty; the current settings stay active. /underwatertrees reload or a restart fills it with the default settings."
+    defaults_updated: "Defaults updated (<file>): <count> new key(s) -> <keys>"
+    upgrade_header: "Upgraded from <plugin> 1.x: your old files were moved to <backup>, and fresh files were created."
+    upgrade_from_1_0: "Your <plugin> files are from version 1.0.x: they were moved to <backup>, and fresh files were created. Settings from 1.0.x can't be carried over, so re-apply your changes from the backup."
+    upgrade_kept: "- Kept your setting <old> -> <new>: <value>"
+    upgrade_dropped: "- Not carried over (no matching setting anymore): <key> = <value>"
+    upgrade_new_entries: "- New default entries missing from your list <list>: <entries>"
+    upgrade_replaced_file: "- Your customized <file> was replaced; your version is in the backup."
+    upgrade_dropped_invalid: "- Not carried over (the value doesn't fit the new setting): <key> = <value>"
+    upgrade_removed: "- Kept your removal of <key>"
+    upgrade_backup_only: "- <file> has no counterpart in the new version and stays only in the backup."
+    stats_header: "Loaded configuration:"
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "Soils:"
+    detail_saplings_header: "Saplings:"

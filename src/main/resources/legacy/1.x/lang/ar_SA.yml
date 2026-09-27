@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "تم تفعيل إضافة UnderwaterTrees."
+  disabled: "تم تعطيل إضافة UnderwaterTrees."
+  language-set: "تم ضبط اللغة إلى <code>."
+update:
+  available: "<prefix> <white>: يوجد تحديث متاح! <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: للحصول على التفاصيل، راجع سجل الخادم.</white>"
+  failed: "<prefix> <light_red>فشل التحقق من التحديث لـ <source>.</light_red>"
+command:
+  usage: "الاستخدام: /<label> reload"
+  reloaded: "تم إعادة تحميل إعدادات UnderwaterTrees."
+  no-permission: "ليس لديك صلاحية لتنفيذ ذلك."
+warn:
+  unsupported-server-version: "<prefix> <yellow>تحذير: يدعم UnderwaterTrees رسمياً خوادم <gold><required_server></gold> التي تعمل
+    على ماينكرافت <gold><supported_versions></gold>. يبلغ خادمك <gold><server_name></gold> <gold><mc_version></gold>.
+    المتابعة على مسؤوليتك الخاصة.</yellow>"

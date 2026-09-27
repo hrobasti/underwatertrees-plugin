@@ -1,0 +1,107 @@
+# Underwater Trees configuration file
+
+#################################################
+# General
+#################################################
+
+# Language (country code = filename in lang/) used for messages.
+language: 'en_US'
+
+# Text displayed between the colored brackets in chat messages.
+chat-prefix-label: 'UwTrees'
+
+# Show the startup banner in the console on plugin enable.
+startup-banner-enabled: true
+
+# Automatically reload when this file changes externally.
+# When disabled, use /underwatertrees reload to apply changes.
+config-watch-enabled: true
+
+# Interval (in seconds) between change checks (minimum 1 second).
+config-watch-interval-seconds: 5
+
+# Log a summary of the enabled soils/saplings on startup and on reload.
+log-stats: true
+
+# List each enabled soil and sapling individually for verification.
+log-detail: false
+
+# Enable anonymous bStats metrics collection for UnderwaterTrees.
+metrics-enabled: true
+
+#################################################
+# Update mechanics
+#################################################
+
+update-check:
+  # Master switch for update checks.
+  enabled: true
+  # Sources mode: 0 = Modrinth + Hangar, 1 = Modrinth only, 2 = Hangar only.
+  sources: 0
+  # Interval in hours between checks (minimum 1 hour).
+  interval-hours: 24
+  # Include beta/alpha versions when determining the latest version.
+  include-prereleases: false
+  # Prefer builds that match the server's Minecraft version.
+  filter-by-server-version: true
+  # Log update availability to console when a newer version is found.
+  notify-console: true
+  # Always show provider summaries even if no update is available.
+  notify-console-always-shown: false
+  # Notify ops on join when an update is available.
+  notify-op-join: true
+
+#################################################
+# Placement Rules
+#################################################
+
+# Only allow placement if there is water directly above the target block.
+# Default false allows placement even without water above.
+require-water-above: false
+
+# Prevent unintended breaking of adjacent underwater saplings caused by water physics.
+# If true, certain physics events for placed saplings are cancelled (may slightly delay growth).
+protect-underwater-saplings: true
+
+#################################################
+# Growth Overrides
+#################################################
+
+# Let UnderwaterTrees override vanilla light requirements for sapling growth/decay handling.
+# Vanilla requires light level 10 to grow and kills saplings when light drops below 7.
+growth-light-override:
+  # Master switch for overriding light checks (default true so underwater saplings can thrive).
+  enabled: true
+  # Minimum light level (0-15) before the plugin forces growth attempts. Invalid values fall back to vanilla (10).
+  minimum-level: 1
+  # Interval in seconds between automatic growth scans (minimum 1 second).
+  attempt-period-seconds: 60
+  # Chance (0-1) that a tracked sapling attempts to grow each scan. Lower values mimic vanilla pacing (~1 attempt/minute).
+  attempt-chance: 0.25
+
+#################################################
+# Materials
+#################################################
+
+# Allowed soils. Add more keys as needed.
+soils:
+  DIRT: true
+  GRASS_BLOCK: true
+  PODZOL: true
+  COARSE_DIRT: true
+  ROOTED_DIRT: true
+  MOSS_BLOCK: true
+  MUD: true
+  SAND: false
+  RED_SAND: false
+
+# Allowed saplings. Supports custom saplings from other plugins.
+saplings:
+  OAK_SAPLING: true
+  SPRUCE_SAPLING: true
+  BIRCH_SAPLING: true
+  JUNGLE_SAPLING: true
+  ACACIA_SAPLING: true
+  DARK_OAK_SAPLING: true
+  CHERRY_SAPLING: true
+  MANGROVE_PROPAGULE: false  # already water-placeable in vanilla, should be disabled to keep that behavior

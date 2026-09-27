@@ -1,17 +1,51 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "UnderwaterTrees 插件已启用。"
-  disabled: "UnderwaterTrees 插件已禁用。"
-  language-set: "语言已设置为 <code>。"
+    enabled: "UnderwaterTrees 插件已启用。"
+    disabled: "UnderwaterTrees 插件已禁用。"
+    language_set: "语言已设置为 <code>。"
 update:
-  available: "<prefix> <white>: 有可用更新！ <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: 详情请查看服务器日志。</white>"
-  failed: "<prefix> <light_red>检查 <source> 更新失败。</light_red>"
+    available: "<prefix> <white>有可用更新！ <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>详情请查看服务器日志。</white>"
 command:
-  usage: "用法: /<label> reload"
-  reloaded: "UnderwaterTrees 配置已重新加载。"
-  no-permission: "你没有执行此操作的权限。"
+    usage: "<prefix> <white>用法：/<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>配置已重新加载。</white>"
+    reload_failed: "<prefix> <red>未重新加载：config.yml 不是有效的 YAML (<error>)。之前的设置仍然有效。</red>"
+    no_permission: "<prefix> <red>你没有权限执行此操作。</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>警告：UnderwaterTrees 官方仅支持运行 Minecraft <gold><supported_versions></gold> 的
-    <gold><required_server></gold> 服务器。当前服务器为 <gold><server_name></gold> <gold><mc_version></gold>，继续使用需自担风险。</yellow>"
+    unsupported_server_version:
+        <yellow>警告：UnderwaterTrees 官方仅支持运行 Minecraft <gold><supported_versions></gold> 的 <gold><required_server></gold>
+        服务器。当前服务器为 <gold><server_name></gold> <gold><mc_version></gold>，继续使用需自担风险。</yellow>
+log:
+    update_found: "发现更新。当前版本：<current>."
+    update_none: "未发现更新。"
+    update_provider_ok: "- <provider>：版本 <version> [<url>]"
+    update_provider_error: "- <provider>：获取失败（<error>）。"
+    update_provider_failed: "通过 <provider> 检查更新失败（<error>）；将在下次检查时重试。"
+    update_provider_none: "- <provider>：未发现更新。"
+    modules_state_active: "已启用"
+    modules_state_inactive: "已禁用"
+    config_reloaded_external: "配置文件被外部修改，已重新加载。"
+    reload_changes_header: 检测到文件更改：
+    reload_changes_line: <file>（<changes>）
+    reload_changes_locale_line: <file>
+    reload_changes_none: 未检测到配置更改。
+    config_invalid_reload: "config.yml 不是有效的 YAML (<error>)；在修复之前，之前的设置仍然有效。"
+    config_invalid_startup: "config.yml 不是有效的 YAML (<error>)；在修复之前，将使用默认设置运行，并停用 bStats 和更新检查。"
+    config_missing_external: "config.yml 已被删除；当前设置仍然有效。/underwatertrees reload 或重启服务器会创建新的 config.yml。"
+    config_empty_external: "config.yml 为空；当前设置仍然有效。/underwatertrees reload 或重启服务器会用默认设置填充它。"
+    defaults_updated: "默认值已更新 (<file>)：<count> 个新键 -> <keys>"
+    upgrade_header: "已从 <plugin> 1.x 升级：旧文件已移至 <backup>，并已创建新文件。"
+    upgrade_from_1_0: "你的 <plugin> 文件来自 1.0.x 版本：已移至 <backup>，并已创建新文件。1.0.x 的设置无法迁移，请根据备份重新应用你的更改。"
+    upgrade_kept: "- 已保留设置：<old> -> <new>：<value>"
+    upgrade_dropped: "- 未迁移（该设置已不存在）：<key> = <value>"
+    upgrade_new_entries: "- 你的列表 <list> 缺少新的默认条目：<entries>"
+    upgrade_replaced_file: "- 你修改过的 <file> 已被替换；你的版本在备份中。"
+    upgrade_dropped_invalid: "- 未迁移（该值不适用于新设置）：<key> = <value>"
+    upgrade_removed: "- 已保留你的删除：<key>"
+    upgrade_backup_only: "- <file> 在新版本中没有对应文件，仅保留在备份中。"
+    stats_header: "已加载配置："
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "土壤："
+    detail_saplings_header: "树苗："

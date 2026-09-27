@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "UnderwaterTrees 플러그인 활성화됐어."
+  disabled: "UnderwaterTrees 플러그인 비활성화됐어."
+  language-set: "언어를 <code>로 설정했어."
+update:
+  available: "<prefix> <white>: 업데이트가 있어! <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: 자세한 정보는 서버 로그를 확인해 줘.</white>"
+  failed: "<prefix> <light_red><source> 업데이트 확인에 실패했어.</light_red>"
+command:
+  usage: "사용법: /<label> reload"
+  reloaded: "UnderwaterTrees 설정 다시 불러왔어."
+  no-permission: "이 작업을 할 권한이 없어."
+warn:
+  unsupported-server-version: "<prefix> <yellow>경고: UnderwaterTrees 는 공식적으로 <gold><required_server></gold> 서버에서 실행되는
+    Minecraft <gold><supported_versions></gold> 만 지원해. 현재 서버는 <gold><server_name></gold> <gold><mc_version></gold> 이야.
+    계속 진행하려면 주의해.</yellow>"

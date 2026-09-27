@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "UnderwaterTrees eklentisi etkinleştirildi."
+  disabled: "UnderwaterTrees eklentisi devre dışı bırakıldı."
+  language-set: "Dil <code> olarak ayarlandı."
+update:
+  available: "<prefix> <white>: Güncelleme var! <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: Ayrıntılar için sunucu kayıtlarını kontrol et.</white>"
+  failed: "<prefix> <light_red><source> için güncelleme kontrolü başarısız oldu.</light_red>"
+command:
+  usage: "Kullanım: /<label> reload"
+  reloaded: "UnderwaterTrees yapılandırması yeniden yüklendi."
+  no-permission: "Bunu yapmak için yetkin yok."
+warn:
+  unsupported-server-version: "<prefix> <yellow>Uyarı: UnderwaterTrees resmi olarak <gold><required_server></gold> sunucularında çalışan
+    Minecraft <gold><supported_versions></gold> sürümlerini destekler. Sunucun <gold><server_name></gold> <gold><mc_version></gold>
+    bildiriyor. Devam etmek kendi sorumluluğundadır.</yellow>"

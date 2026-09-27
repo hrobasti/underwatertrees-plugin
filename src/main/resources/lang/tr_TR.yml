@@ -1,18 +1,51 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "UnderwaterTrees eklentisi etkinleştirildi."
-  disabled: "UnderwaterTrees eklentisi devre dışı bırakıldı."
-  language-set: "Dil <code> olarak ayarlandı."
+    enabled: "UnderwaterTrees eklentisi etkinleştirildi."
+    disabled: "UnderwaterTrees eklentisi devre dışı bırakıldı."
+    language_set: "Dil <code> olarak ayarlandı."
 update:
-  available: "<prefix> <white>: Güncelleme var! <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: Ayrıntılar için sunucu kayıtlarını kontrol et.</white>"
-  failed: "<prefix> <light_red><source> için güncelleme kontrolü başarısız oldu.</light_red>"
+    available: "<prefix> <white>Güncelleme var! <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>Ayrıntılar için sunucu kayıtlarını kontrol et.</white>"
 command:
-  usage: "Kullanım: /<label> reload"
-  reloaded: "UnderwaterTrees yapılandırması yeniden yüklendi."
-  no-permission: "Bunu yapmak için yetkin yok."
+    usage: "<prefix> <white>Kullanım: /<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>Yapılandırma yeniden yüklendi.</white>"
+    reload_failed: "<prefix> <red>Yeniden yüklenmedi: config.yml geçerli bir YAML değil (<error>). Önceki ayarlar etkin kalıyor.</red>"
+    no_permission: "<prefix> <red>Bunu yapmak için iznin yok.</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>Uyarı: UnderwaterTrees resmi olarak <gold><required_server></gold> sunucularında çalışan
-    Minecraft <gold><supported_versions></gold> sürümlerini destekler. Sunucun <gold><server_name></gold> <gold><mc_version></gold>
-    bildiriyor. Devam etmek kendi sorumluluğundadır.</yellow>"
+    unsupported_server_version:
+        "<yellow>Uyarı: UnderwaterTrees resmi olarak <gold><required_server></gold> sunucularında çalışan Minecraft <gold><supported_versions></gold>
+        sürümlerini destekler. Sunucun <gold><server_name></gold> <gold><mc_version></gold> bildiriyor. Devam etmek kendi sorumluluğundadır.</yellow>"
+log:
+    update_found: "Güncelleme bulundu. Mevcut sürüm: <current>."
+    update_none: "Güncelleme bulunamadı."
+    update_provider_ok: "- <provider>: Sürüm <version> [<url>]"
+    update_provider_error: "- <provider>: Getirme başarısız (<error>)."
+    update_provider_failed: "<provider> üzerinden güncelleme denetimi başarısız oldu (<error>); bir sonraki denetimde yeniden denenecek."
+    update_provider_none: "- <provider>: Güncelleme bulunamadı."
+    modules_state_active: "etkin"
+    modules_state_inactive: "devre dışı"
+    config_reloaded_external: "Yapılandırma dosyası dışarıdan değiştirildi, yeniden yüklendi."
+    reload_changes_header: "Dosya değişiklikleri algılandı:"
+    reload_changes_line: <file> (<changes>)
+    reload_changes_locale_line: <file>
+    reload_changes_none: Yapılandırma değişikliği algılanmadı.
+    config_invalid_reload: "config.yml geçerli bir YAML değil (<error>); düzeltilene kadar önceki ayarlar etkin kalır."
+    config_invalid_startup: "config.yml geçerli bir YAML değil (<error>); düzeltilene kadar bStats ve güncelleme denetimi olmadan varsayılan ayarlarla çalışılıyor."
+    config_missing_external: "config.yml silindi; mevcut ayarlar etkin kalıyor. /underwatertrees reload veya yeniden başlatma yeni bir config.yml oluşturur."
+    config_empty_external: "config.yml boş; mevcut ayarlar etkin kalıyor. /underwatertrees reload veya yeniden başlatma dosyayı varsayılan ayarlarla doldurur."
+    defaults_updated: "Varsayılanlar güncellendi (<file>): <count> yeni anahtar -> <keys>"
+    upgrade_header: "<plugin> 1.x sürümünden yükseltildi: eski dosyaların <backup> konumuna taşındı ve yeni dosyalar oluşturuldu."
+    upgrade_from_1_0: "<plugin> dosyaların 1.0.x sürümüne ait: <backup> konumuna taşındı ve yeni dosyalar oluşturuldu. 1.0.x ayarları aktarılamıyor; değişikliklerini yedekten yeniden uygula."
+    upgrade_kept: "- Ayar korundu: <old> -> <new>: <value>"
+    upgrade_dropped: "- Aktarılmadı (bu ayar artık yok): <key> = <value>"
+    upgrade_new_entries: "- <list> listende yeni varsayılan girdiler eksik: <entries>"
+    upgrade_replaced_file: "- Özelleştirdiğin <file> dosyası değiştirildi; senin sürümün yedekte."
+    upgrade_dropped_invalid: "- Aktarılmadı (değer yeni ayara uymuyor): <key> = <value>"
+    upgrade_removed: "- Kaldırman korundu: <key>"
+    upgrade_backup_only: "- <file> dosyasının yeni sürümde karşılığı yok ve yalnızca yedekte kalıyor."
+    stats_header: "Yüklenen yapılandırma:"
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "Topraklar:"
+    detail_saplings_header: "Fidanlar:"

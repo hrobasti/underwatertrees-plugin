@@ -1,0 +1,12 @@
+plugin:
+  enabled: "UnderwaterTrees プラグインを有効化したよ。"
+  disabled: "UnderwaterTrees プラグインを無効化したよ。"
+  language_set: "言語を {code} にしたよ。"
+update:
+  available: "新しいバージョン {remote} があるよ（いまは {local} を使ってる）。"
+  link: "くわしくは: {url}"
+  failed: "{source} のアップデート確認に失敗したよ。"
+command:
+  usage: "使い方: /{label} reload"
+  reloaded: "UnderwaterTrees の設定を再読み込みしたよ。"
+  no_permission: "この操作をする権限がないよ。"

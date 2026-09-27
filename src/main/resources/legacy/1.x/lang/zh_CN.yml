@@ -1,0 +1,17 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "UnderwaterTrees 插件已启用。"
+  disabled: "UnderwaterTrees 插件已禁用。"
+  language-set: "语言已设置为 <code>。"
+update:
+  available: "<prefix> <white>: 有可用更新！ <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: 详情请查看服务器日志。</white>"
+  failed: "<prefix> <light_red>检查 <source> 更新失败。</light_red>"
+command:
+  usage: "用法: /<label> reload"
+  reloaded: "UnderwaterTrees 配置已重新加载。"
+  no-permission: "你没有执行此操作的权限。"
+warn:
+  unsupported-server-version: "<prefix> <yellow>警告：UnderwaterTrees 官方仅支持运行 Minecraft <gold><supported_versions></gold> 的
+    <gold><required_server></gold> 服务器。当前服务器为 <gold><server_name></gold> <gold><mc_version></gold>，继续使用需自担风险。</yellow>"

@@ -1,0 +1,12 @@
+plugin:
+  enabled: "UnderwaterTrees plugin ingeschakeld."
+  disabled: "UnderwaterTrees plugin uitgeschakeld."
+  language_set: "Taal ingesteld op {code}."
+update:
+  available: "Nieuwe versie {remote} beschikbaar (je gebruikt {local})."
+  link: "Meer info: {url}"
+  failed: "Updatecontrole mislukt voor {source}."
+command:
+  usage: "Gebruik: /{label} reload"
+  reloaded: "UnderwaterTrees configuratie herladen."
+  no_permission: "Je hebt geen toestemming hiervoor."

@@ -1,0 +1,18 @@
+ui:
+  prefix: "<green>[<prefix_label>]</green>"
+plugin:
+  enabled: "Plugin UnderwaterTrees habilitado."
+  disabled: "Plugin UnderwaterTrees deshabilitado."
+  language-set: "Idioma configurado a <code>."
+update:
+  available: "<prefix> <white>: ¡Actualización disponible! <gold><local></gold> -> <gold><remote></gold></white>"
+  details: "<prefix> <white>: Para más detalles, revisa el registro del servidor.</white>"
+  failed: "<prefix> <light_red>La comprobación de actualizaciones falló para <source>.</light_red>"
+command:
+  usage: "Uso: /<label> reload"
+  reloaded: "Configuración de UnderwaterTrees recargada."
+  no-permission: "No tienes permiso para hacer eso."
+warn:
+  unsupported-server-version: "<prefix> <yellow>Advertencia: UnderwaterTrees admite oficialmente servidores <gold><required_server></gold>
+    que ejecutan Minecraft <gold><supported_versions></gold>. Tu servidor informa <gold><server_name></gold> <gold><mc_version></gold>.
+    Continúa bajo tu propio riesgo.</yellow>"

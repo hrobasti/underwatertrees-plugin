@@ -1,18 +1,52 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "Plugin UnderwaterTrees habilitado."
-  disabled: "Plugin UnderwaterTrees deshabilitado."
-  language-set: "Idioma configurado a <code>."
+    enabled: "Plugin UnderwaterTrees habilitado."
+    disabled: "Plugin UnderwaterTrees deshabilitado."
+    language_set: "Idioma configurado a <code>."
 update:
-  available: "<prefix> <white>: ¡Actualización disponible! <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: Para más detalles, revisa el registro del servidor.</white>"
-  failed: "<prefix> <light_red>La comprobación de actualizaciones falló para <source>.</light_red>"
+    available: "<prefix> <white>¡Actualización disponible! <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>Para más detalles, revisa el registro del servidor.</white>"
 command:
-  usage: "Uso: /<label> reload"
-  reloaded: "Configuración de UnderwaterTrees recargada."
-  no-permission: "No tienes permiso para hacer eso."
+    usage: "<prefix> <white>Uso: /<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>Configuración recargada.</white>"
+    reload_failed: "<prefix> <red>No se ha recargado: config.yml no es YAML válido (<error>). La configuración anterior sigue activa.</red>"
+    no_permission: "<prefix> <red>No tienes permiso para hacer eso.</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>Advertencia: UnderwaterTrees admite oficialmente servidores <gold><required_server></gold>
-    que ejecutan Minecraft <gold><supported_versions></gold>. Tu servidor informa <gold><server_name></gold> <gold><mc_version></gold>.
-    Continúa bajo tu propio riesgo.</yellow>"
+    unsupported_server_version:
+        "<yellow>Advertencia: UnderwaterTrees admite oficialmente servidores <gold><required_server></gold>
+        que ejecutan Minecraft <gold><supported_versions></gold>. Tu servidor informa <gold><server_name></gold> <gold><mc_version></gold>.
+        Continúa bajo tu propio riesgo.</yellow>"
+log:
+    update_found: "Se encontró una actualización. Versión actual: <current>."
+    update_none: "No se encontró ninguna actualización."
+    update_provider_ok: "- <provider>: Versión <version> [<url>]"
+    update_provider_error: "- <provider>: Error al obtener datos (<error>)."
+    update_provider_failed: "La comprobación de actualizaciones a través de <provider> ha fallado (<error>); se reintentará en la próxima comprobación."
+    update_provider_none: "- <provider>: No se encontró ninguna actualización."
+    modules_state_active: "activado"
+    modules_state_inactive: "desactivado"
+    config_reloaded_external: "El archivo de configuración cambió externamente y se recargó."
+    reload_changes_header: "Cambios detectados en archivos:"
+    reload_changes_line: <file> (<changes>)
+    reload_changes_locale_line: <file>
+    reload_changes_none: No se detectaron cambios de configuración.
+    config_invalid_reload: "config.yml no es YAML válido (<error>); la configuración anterior sigue activa hasta que se corrija."
+    config_invalid_startup: "config.yml no es YAML válido (<error>); se usa la configuración predeterminada, sin bStats ni comprobación de actualizaciones, hasta que se corrija."
+    config_missing_external: "Se ha eliminado config.yml; la configuración actual sigue activa. /underwatertrees reload o un reinicio crea un config.yml nuevo."
+    config_empty_external: "config.yml está vacío; la configuración actual sigue activa. /underwatertrees reload o un reinicio lo rellena con la configuración predeterminada."
+    defaults_updated: "Valores predeterminados actualizados (<file>): <count> clave(s) nueva(s) -> <keys>"
+    upgrade_header: "Actualizado desde <plugin> 1.x: tus archivos antiguos se movieron a <backup> y se crearon archivos nuevos."
+    upgrade_from_1_0: "Tus archivos de <plugin> son de la versión 1.0.x: se movieron a <backup> y se crearon archivos nuevos. La configuración de 1.0.x no se puede trasladar, así que vuelve a aplicar tus cambios desde la copia de seguridad."
+    upgrade_kept: "- Ajuste conservado: <old> -> <new>: <value>"
+    upgrade_dropped: "- No se ha trasladado (ese ajuste ya no existe): <key> = <value>"
+    upgrade_new_entries: "- Faltan nuevas entradas predeterminadas en tu lista <list>: <entries>"
+    upgrade_replaced_file: "- Tu archivo <file> personalizado se ha sustituido; tu versión está en la copia de seguridad."
+    upgrade_dropped_invalid: "- No se ha trasladado (el valor no encaja con el nuevo ajuste): <key> = <value>"
+    upgrade_removed: "- Se mantiene tu eliminación: <key>"
+    upgrade_backup_only: "- <file> no tiene equivalente en la nueva versión y solo queda en la copia de seguridad."
+    stats_header: "Configuración cargada:"
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "Suelos:"
+    detail_saplings_header: "Brotes:"

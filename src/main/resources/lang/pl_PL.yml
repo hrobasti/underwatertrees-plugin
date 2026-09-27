@@ -1,18 +1,52 @@
 ui:
-  prefix: "<green>[<prefix_label>]</green>"
+    prefix: "<green>[<prefix_label>]</green>"
 plugin:
-  enabled: "Wtyczka UnderwaterTrees włączona."
-  disabled: "Wtyczka UnderwaterTrees wyłączona."
-  language-set: "Ustawiono język na <code>."
+    enabled: "Wtyczka UnderwaterTrees włączona."
+    disabled: "Wtyczka UnderwaterTrees wyłączona."
+    language_set: "Ustawiono język na <code>."
 update:
-  available: "<prefix> <white>: Aktualizacja dostępna! <gold><local></gold> -> <gold><remote></gold></white>"
-  details: "<prefix> <white>: Szczegóły znajdziesz w logu serwera.</white>"
-  failed: "<prefix> <light_red>Sprawdzenie aktualizacji nie powiodło się dla <source>.</light_red>"
+    available: "<prefix> <white>Aktualizacja dostępna! <gold><current_ver></gold> -> <gold><latest_ver></gold></white>"
+    details: "<prefix> <white>Szczegóły znajdziesz w logu serwera.</white>"
 command:
-  usage: "Użycie: /<label> reload"
-  reloaded: "Konfiguracja UnderwaterTrees przeładowana."
-  no-permission: "Nie masz uprawnień do tej czynności."
+    usage: "<prefix> <white>Użycie: /<label> [<subcommands>]</white>"
+    reloaded: "<prefix> <white>Konfiguracja przeładowana.</white>"
+    reload_failed: "<prefix> <red>Nie przeładowano: config.yml nie jest poprawnym plikiem YAML (<error>). Poprzednie ustawienia pozostają aktywne.</red>"
+    no_permission: "<prefix> <red>Nie masz uprawnień do tej akcji.</red>"
+    version: "<prefix> <white>UnderwaterTrees <gold><current_ver></gold></white>"
 warn:
-  unsupported-server-version: "<prefix> <yellow>Ostrzeżenie: UnderwaterTrees jest oficjalnie wspierany na serwerach <gold><required_server></gold>
-    działających na Minecraft <gold><supported_versions></gold>. Twój serwer zgłasza <gold><server_name></gold> <gold><mc_version></gold>.
-    Kontynuujesz na własne ryzyko.</yellow>"
+    unsupported_server_version:
+        "<yellow>Ostrzeżenie: UnderwaterTrees jest oficjalnie wspierany na serwerach <gold><required_server></gold>
+        działających na Minecraft <gold><supported_versions></gold>. Twój serwer zgłasza <gold><server_name></gold> <gold><mc_version></gold>.
+        Kontynuujesz na własne ryzyko.</yellow>"
+log:
+    update_found: "Znaleziono aktualizację. Obecna wersja: <current>."
+    update_none: "Brak dostępnych aktualizacji."
+    update_provider_ok: "- <provider>: Wersja <version> [<url>]"
+    update_provider_error: "- <provider>: Nie udało się pobrać (<error>)."
+    update_provider_failed: "Sprawdzanie aktualizacji przez <provider> nie powiodło się (<error>); ponowna próba przy następnym sprawdzeniu."
+    update_provider_none: "- <provider>: Brak dostępnych aktualizacji."
+    modules_state_active: "włączony"
+    modules_state_inactive: "wyłączony"
+    config_reloaded_external: "Plik konfiguracyjny zmieniony zewnętrznie, przeładowano."
+    reload_changes_header: "Wykryto zmiany w plikach:"
+    reload_changes_line: <file> (<changes>)
+    reload_changes_locale_line: <file>
+    reload_changes_none: Nie wykryto zmian konfiguracji.
+    config_invalid_reload: "config.yml nie jest poprawnym plikiem YAML (<error>); poprzednie ustawienia pozostają aktywne do czasu jego poprawienia."
+    config_invalid_startup: "config.yml nie jest poprawnym plikiem YAML (<error>); do czasu jego poprawienia działają ustawienia domyślne, bez bStats i sprawdzania aktualizacji."
+    config_missing_external: "Plik config.yml został usunięty; bieżące ustawienia pozostają aktywne. /underwatertrees reload lub restart tworzy nowy config.yml."
+    config_empty_external: "Plik config.yml jest pusty; bieżące ustawienia pozostają aktywne. /underwatertrees reload lub restart wypełnia go ustawieniami domyślnymi."
+    defaults_updated: "Zaktualizowano wartości domyślne (<file>), nowe klucze: <count> -> <keys>"
+    upgrade_header: "Aktualizacja z <plugin> 1.x: stare pliki przeniesiono do <backup> i utworzono nowe pliki."
+    upgrade_from_1_0: "Twoje pliki <plugin> pochodzą z wersji 1.0.x: przeniesiono je do <backup> i utworzono nowe pliki. Ustawień z wersji 1.0.x nie można przenieść, więc wprowadź swoje zmiany ponownie na podstawie kopii zapasowej."
+    upgrade_kept: "- Zachowano ustawienie: <old> -> <new>: <value>"
+    upgrade_dropped: "- Nie przeniesiono (to ustawienie już nie istnieje): <key> = <value>"
+    upgrade_new_entries: "- Na twojej liście <list> brakuje nowych domyślnych wpisów: <entries>"
+    upgrade_replaced_file: "- Twój zmodyfikowany plik <file> został zastąpiony; twoja wersja jest w kopii zapasowej."
+    upgrade_dropped_invalid: "- Nie przeniesiono (wartość nie pasuje do nowego ustawienia): <key> = <value>"
+    upgrade_removed: "- Zachowano usunięcie: <key>"
+    upgrade_backup_only: "- <file> nie ma odpowiednika w nowej wersji i zostaje tylko w kopii zapasowej."
+    stats_header: "Wczytana konfiguracja:"
+    stats_line: "  <key>: <value>"
+    detail_soils_header: "Podłoża:"
+    detail_saplings_header: "Sadzonki:"

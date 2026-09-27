@@ -1,0 +1,12 @@
+plugin:
+  enabled: "UnderwaterTrees Plugin aktiviert."
+  disabled: "UnderwaterTrees Plugin deaktiviert."
+  language_set: "Sprache auf {code} gesetzt."
+update:
+  available: "Neue Version {remote} verfügbar (aktuell: {local})."
+  link: "Mehr Infos: {url}"
+  failed: "Update-Check fehlgeschlagen für {source}."
+command:
+  usage: "Verwendung: /{label} reload"
+  reloaded: "UnderwaterTrees-Konfiguration neu geladen."
+  no_permission: "Du hast keine Berechtigung dafür."
