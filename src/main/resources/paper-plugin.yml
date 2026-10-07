@@ -4,15 +4,15 @@ main: net.kroet.underwatertrees.UnderwaterTreesPlugin
 description: Allows placing tree saplings underwater.
 api-version: "26.3"
 authors:
-    - "kroet.net"
+  - "kroet.net"
 website: "https://github.com/hrobasti/underwatertrees-plugin"
 permissions:
-    underwatertrees.admin:
-        description: Grants /underwatertrees reload and future admin commands
-        default: op
-    underwatertrees.place:
-        description: Allows planting saplings underwater
-        default: "true"
-    underwatertrees.update.notify:
-        description: Allows receiving update notifications on join
-        default: op
+  underwatertrees.admin:
+    description: Grants /underwatertrees reload and future admin commands
+    default: op
+  underwatertrees.place:
+    description: Allows planting saplings underwater
+    default: "true"
+  underwatertrees.update.notify:
+    description: Allows receiving update notifications on join
+    default: op

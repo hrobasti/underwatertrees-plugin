@@ -39,23 +39,23 @@ metrics_enabled: true
 #################################################
 
 update_check:
-    # Master switch for update checks (Modrinth/Hangar).
-    enabled: true
-    # 0 = Modrinth + Hangar, 1 = only Modrinth, 2 = only Hangar
-    provider: 0
-    # Hours between automatic update checks (minimum 1).
-    interval_hours: 24
-    # Include beta/alpha versions when determining the latest version.
-    include_prereleases: false
-    # Only report builds made for the server's Minecraft version (builds without
-    # version info count only if none matches).
-    filter_by_server_version: true
-    # Log update availability and unreachable platforms to the console.
-    notify_console: true
-    # Also log the provider summary once after each start/reload when no update is available.
-    notify_console_always_shown: false
-    # Notify ops on join when an update is available.
-    notify_op_join: true
+  # Master switch for update checks (Modrinth/Hangar).
+  enabled: true
+  # 0 = Modrinth + Hangar, 1 = only Modrinth, 2 = only Hangar
+  provider: 0
+  # Hours between automatic update checks (minimum 1).
+  interval_hours: 24
+  # Include beta/alpha versions when determining the latest version.
+  include_prereleases: false
+  # Only report builds made for the server's Minecraft version (builds without
+  # version info count only if none matches).
+  filter_by_server_version: true
+  # Log update availability and unreachable platforms to the console.
+  notify_console: true
+  # Also log the provider summary once after each start/reload when no update is available.
+  notify_console_always_shown: false
+  # Notify ops on join when an update is available.
+  notify_op_join: true
 
 #################################################
 # Placement Rules
@@ -76,15 +76,15 @@ protect_underwater_saplings: true
 # Let UnderwaterTrees grow underwater saplings where the light is too low for vanilla growth.
 # Vanilla saplings only grow at light level 9 or higher.
 growth_light_override:
-    # Master switch for overriding light checks (default true so underwater saplings can thrive).
-    enabled: true
-    # Minimum light level (0-15) before the plugin forces growth attempts. 0 lets saplings grow even on the pitch-dark
-    # deep-sea floor; raise it to keep dark spots from growing. Invalid values fall back to vanilla (9).
-    minimum_level: 0
-    # Interval in seconds between automatic growth scans (minimum 1 second).
-    attempt_period_seconds: 60
-    # Chance (0-1) that a tracked sapling attempts to grow each scan. Lower values mimic vanilla pacing (~1 attempt/minute).
-    attempt_chance: 0.25
+  # Master switch for overriding light checks (default true so underwater saplings can thrive).
+  enabled: true
+  # Minimum light level (0-15) before the plugin forces growth attempts. 0 lets saplings grow even on the pitch-dark
+  # deep-sea floor; raise it to keep dark spots from growing. Invalid values fall back to vanilla (9).
+  minimum_level: 0
+  # Interval in seconds between automatic growth scans (minimum 1 second).
+  attempt_period_seconds: 60
+  # Chance (0-1) that a tracked sapling attempts to grow each scan. Lower values mimic vanilla pacing (~1 attempt/minute).
+  attempt_chance: 0.25
 
 #################################################
 # Materials
@@ -93,27 +93,27 @@ growth_light_override:
 # Allowed soils. Add more keys as needed.
 # Entries you delete stay deleted; new entries from updates are added once.
 soils:
-    DIRT: true
-    GRASS_BLOCK: true
-    PODZOL: true
-    COARSE_DIRT: true
-    ROOTED_DIRT: true
-    MOSS_BLOCK: true
-    MUD: true
-    SAND: false
-    RED_SAND: false
+  DIRT: true
+  GRASS_BLOCK: true
+  PODZOL: true
+  COARSE_DIRT: true
+  ROOTED_DIRT: true
+  MOSS_BLOCK: true
+  MUD: true
+  SAND: false
+  RED_SAND: false
 
 # Allowed saplings, as Minecraft material names (e.g. CHERRY_SAPLING).
 # Custom items from other plugins aren't supported.
 # Entries you delete stay deleted; new entries from updates are added once.
 saplings:
-    OAK_SAPLING: true
-    SPRUCE_SAPLING: true
-    BIRCH_SAPLING: true
-    JUNGLE_SAPLING: true
-    ACACIA_SAPLING: true
-    DARK_OAK_SAPLING: true
-    PALE_OAK_SAPLING: true
-    CHERRY_SAPLING: true
-    POPLAR_SAPLING: true
-    MANGROVE_PROPAGULE: false # already water-placeable in vanilla, should be disabled to keep that behavior
+  OAK_SAPLING: true
+  SPRUCE_SAPLING: true
+  BIRCH_SAPLING: true
+  JUNGLE_SAPLING: true
+  ACACIA_SAPLING: true
+  DARK_OAK_SAPLING: true
+  PALE_OAK_SAPLING: true
+  CHERRY_SAPLING: true
+  POPLAR_SAPLING: true
+  MANGROVE_PROPAGULE: false # already water-placeable in vanilla, should be disabled to keep that behavior
