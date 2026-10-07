@@ -105,7 +105,7 @@ tasks.named('shadowJar') {
     from(layout.projectDirectory.file('LICENSE'))
     // Test-only TurtleLib helper; the plugin never uses it at runtime.
     exclude 'net/kroet/turtlelib/helper/LocaleFileChecker*'
-    // TurtleLib's license ships as licenses/turtle-lib-MIT.txt instead.
+    // TurtleLib's license ships as licenses/turtle_lib_MIT.txt instead.
     exclude 'META-INF/LICENSE'
 }
 
