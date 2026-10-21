@@ -1,8 +1,8 @@
-# UnderwaterTrees 🌊
+# Underwater Trees 🌊
 
-Let your players plant saplings below the surface without weird hacks. UnderwaterTrees keeps placement safe, respects your land-protection plugins, and helps underwater saplings actually grow.
+Let your players plant saplings below the surface without weird hacks. Underwater Trees keeps placement safe, respects your land-protection plugins, and helps underwater saplings actually grow.
 
-![UnderwaterTrees demo](img/uwtrees_01.gif)
+![Underwater Trees demo](img/uwtrees_01.gif)
 
 ## Why server owners love it
 
@@ -16,7 +16,7 @@ Let your players plant saplings below the surface without weird hacks. Underwate
 
 ## Quick start
 
-UnderwaterTrees needs Paper 26.3.x and Java 25 (Spigot/vanilla are not supported).
+Underwater Trees needs Paper 26.3.x and Java 25 (Spigot/vanilla are not supported).
 
 1. Download the latest `underwatertrees-paper-<version>.jar` from [Modrinth](https://modrinth.com/plugin/underwatertrees) or [Hangar](https://hangar.papermc.io/hro_basti/underwatertrees) and drop it into `plugins/`.
 2. Start the server once. `config.yml`, `lang/`, and defaults appear under `plugins/UnderwaterTrees/`.
@@ -35,8 +35,8 @@ Swap the jar and start the server: your old files move to `plugins/UnderwaterTre
 
 ## License & Credits
 
-- UnderwaterTrees is released under the MIT License (see `LICENSE`), Copyright (c) 2025-2026 [kroet.net](https://kroet.net). Releases before 2.0.0 were published under the Apache License 2.0; kroet.net additionally makes them available under the MIT License.
-- The MIT License covers the code, not the name: forks should use a different plugin name and must not suggest they are the official UnderwaterTrees.
+- Underwater Trees is released under the MIT License (see `LICENSE`), Copyright (c) 2025-2026 [kroet.net](https://kroet.net). Releases before 2.0.0 were published under the Apache License 2.0; kroet.net additionally makes them available under the MIT License.
+- The MIT License covers the code, not the name: forks should use a different plugin name and must not suggest they are the official Underwater Trees.
 - Includes TurtleLib by [kroet.net](https://kroet.net) (MIT); its license text ships at `licenses/turtle_lib_MIT.txt` inside the jar.
 - Includes bStats Metrics (MIT, Copyright (c) 2021 Bastian Oppermann); its license text ships at `licenses/bstats_MIT.txt`. MiniMessage and Gson are provided by Paper at runtime. All bundled and runtime-provided libraries are listed in `THIRD_PARTY_NOTICES.md`.
 - Parts of this plugin and its documentation were produced with AI assistance and reviewed by the maintainer before release.

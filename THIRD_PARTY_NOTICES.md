@@ -18,6 +18,6 @@ Adventure/MiniMessage and Gson come in through `paper-api` at compile time only 
 
 ## TurtleLib
 
-TurtleLib is a separate library by the same author (kroet.net), released under the MIT License. UnderwaterTrees shades its compiled classes into this jar and leaves out the test-only `LocaleFileChecker`, which the MIT License allows. The canonical license text is <https://github.com/hrobasti/turtle-lib/blob/default/LICENSE>.
+TurtleLib is a separate library by the same author (kroet.net), released under the MIT License. Underwater Trees shades its compiled classes into this jar and leaves out the test-only `LocaleFileChecker`, which the MIT License allows. The canonical license text is <https://github.com/hrobasti/turtle-lib/blob/default/LICENSE>.
 
-Both bundled libraries are MIT-licensed, which requires their copyright and permission notices to stay with every copy: please keep `licenses/` and this file when you redistribute UnderwaterTrees or a modified version of it.
+Both bundled libraries are MIT-licensed, which requires their copyright and permission notices to stay with every copy: please keep `licenses/` and this file when you redistribute Underwater Trees or a modified version of it.

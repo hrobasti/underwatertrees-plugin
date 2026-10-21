@@ -1,4 +1,4 @@
-# UnderwaterTrees configuration file
+# Underwater Trees configuration file
 
 #################################################
 # General
@@ -73,7 +73,7 @@ protect_underwater_saplings: true
 # Growth Overrides
 #################################################
 
-# Let UnderwaterTrees grow underwater saplings where the light is too low for vanilla growth.
+# Let Underwater Trees grow underwater saplings where the light is too low for vanilla growth.
 # Vanilla saplings only grow at light level 9 or higher.
 growth_light_override:
   # Master switch for overriding light checks (default true so underwater saplings can thrive).
