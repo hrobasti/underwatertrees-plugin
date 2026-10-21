@@ -28,6 +28,13 @@ Edits to `config.yml` are picked up automatically by the config watcher; after e
 
 Swap the jar and start the server: your old files move to `plugins/UnderwaterTrees/backup-1.x/`, fresh files are created with every setting you had changed carried over, and the console lists exactly what happened. The [upgrade notes](https://github.com/hrobasti/underwatertrees-plugin/wiki#upgrading-from-1x) list what behaves differently in 2.0, such as the new `underwatertrees.place` permission. Coming from 1.0 or 1.0.1, your files are backed up the same way, but their settings can't be carried over: re-apply your changes from the backup.
 
+## Update check & privacy
+
+Underwater Trees contacts two services from your server; players' game clients never do.
+
+- **Update check:** at start and then every `update_check.interval_hours` (default 24), the server asks `api.modrinth.com` (Modrinth) and `hangar.papermc.io` (Hangar) for the plugin's published versions. Sent: the server's IP address (part of every web request), the user agent `UnderwaterTrees-UpdateChecker` and the project ID. No player or world data. Pick one platform with `update_check.provider`, or switch the check off with `update_check.enabled: false`.
+- **Usage statistics (bStats):** every 30 minutes the server sends anonymous statistics to `bstats.org`: a random server ID created by bStats, player count, online mode, server software and version, Java version, operating system and CPU core count, the plugin's version, and its charts (language, number of allowed saplings and soils). Switch it off for Underwater Trees with `metrics_enabled: false`, or for all plugins with `enabled: false` in `plugins/bStats/config.yml`. More: [bStats for server owners](https://bstats.org/docs/server-owners).
+
 ## Documentation
 
 - [Wiki: admin guide](https://github.com/hrobasti/underwatertrees-plugin/wiki): every setting, commands and permissions, languages, troubleshooting.
@@ -37,6 +44,5 @@ Swap the jar and start the server: your old files move to `plugins/UnderwaterTre
 
 - Underwater Trees is released under the MIT License (see `LICENSE`), Copyright (c) 2025-2026 [kroet.net](https://kroet.net). Releases before 2.0.0 were published under the Apache License 2.0; kroet.net additionally makes them available under the MIT License.
 - The MIT License covers the code, not the name: forks should use a different plugin name and must not suggest they are the official Underwater Trees.
-- Includes TurtleLib by [kroet.net](https://kroet.net) (MIT); its license text ships at `licenses/turtle_lib_MIT.txt` inside the jar.
-- Includes bStats Metrics (MIT, Copyright (c) 2021 Bastian Oppermann); its license text ships at `licenses/bstats_MIT.txt`. MiniMessage and Gson are provided by Paper at runtime. All bundled and runtime-provided libraries are listed in `THIRD_PARTY_NOTICES.md`.
+- Bundled libraries, their licenses and the libraries Paper provides are listed in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md); the license texts of the bundled ones ship under `licenses/` inside the jar.
 - Parts of this plugin and its documentation were produced with AI assistance and reviewed by the maintainer before release.
