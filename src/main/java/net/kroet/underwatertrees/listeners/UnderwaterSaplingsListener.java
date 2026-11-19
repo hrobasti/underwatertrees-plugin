@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -50,6 +51,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
+import org.jspecify.annotations.Nullable;
 
 public final class UnderwaterSaplingsListener implements Listener {
 
@@ -61,8 +63,8 @@ public final class UnderwaterSaplingsListener implements Listener {
     // Chunks waiting for their one-time scan, and chunks being scanned now.
     private final Set<TrackedSaplings.ChunkKey> pendingScans = new LinkedHashSet<>();
     private final Set<TrackedSaplings.ChunkKey> scansInFlight = new HashSet<>();
-    private BukkitTask migrationTask;
-    private ExecutorService scanPool;
+    private @Nullable BukkitTask migrationTask;
+    private @Nullable ExecutorService scanPool;
     // Chunk PersistentDataContainer: trackedSaplingsKey holds every sapling on
     // valid soil (underwater or not) as packed chunk-local positions;
     // saplingsMigratedKey marks a chunk as scanned, so it is scanned only once.
@@ -92,7 +94,7 @@ public final class UnderwaterSaplingsListener implements Listener {
     private long growthTaskPeriodTicks = DEFAULT_GROWTH_TASK_PERIOD_TICKS;
     private long scheduledGrowthPeriodTicks = -1L;
     private double growthAttemptChance = DEFAULT_GROWTH_ATTEMPT_CHANCE;
-    private BukkitTask growthTask;
+    private @Nullable BukkitTask growthTask;
     private final InternalEventGuard placeEventGuard;
     private final UnderwaterTwoByTwoGrowth twoByTwoGrowth;
 
@@ -646,19 +648,22 @@ public final class UnderwaterSaplingsListener implements Listener {
     }
 
     private ExecutorService scanPool() {
-        if (scanPool == null) {
-            scanPool = Executors.newFixedThreadPool(SCAN_THREADS, runnable -> {
+        ExecutorService pool = scanPool;
+        if (pool == null) {
+            pool = Executors.newFixedThreadPool(SCAN_THREADS, runnable -> {
                 Thread thread = new Thread(runnable, "UnderwaterTrees-ChunkScan");
                 thread.setDaemon(true);
                 return thread;
             });
+            scanPool = pool;
         }
-        return scanPool;
+        return pool;
     }
 
     private void cancelMigrationTask() {
-        if (migrationTask != null) {
-            migrationTask.cancel();
+        BukkitTask task = migrationTask;
+        if (task != null) {
+            task.cancel();
             migrationTask = null;
         }
     }
@@ -668,8 +673,9 @@ public final class UnderwaterSaplingsListener implements Listener {
         cancelGrowthTask();
         cancelMigrationTask();
         pendingScans.clear();
-        if (scanPool != null) {
-            scanPool.shutdownNow();
+        ExecutorService pool = scanPool;
+        if (pool != null) {
+            pool.shutdownNow();
             scanPool = null;
         }
     }
@@ -781,7 +787,8 @@ public final class UnderwaterSaplingsListener implements Listener {
     // Keeps a running timer on reload unless its period changed; restarting
     // it every time resets the countdown, so frequent reloads would starve it.
     private void ensureGrowthTask() {
-        if (growthTask != null && !growthTask.isCancelled() && scheduledGrowthPeriodTicks == growthTaskPeriodTicks) {
+        BukkitTask running = growthTask;
+        if (running != null && !running.isCancelled() && scheduledGrowthPeriodTicks == growthTaskPeriodTicks) {
             return;
         }
         cancelGrowthTask();
@@ -793,8 +800,9 @@ public final class UnderwaterSaplingsListener implements Listener {
     }
 
     private void cancelGrowthTask() {
-        if (growthTask != null) {
-            growthTask.cancel();
+        BukkitTask task = growthTask;
+        if (task != null) {
+            task.cancel();
             growthTask = null;
         }
     }
@@ -810,7 +818,8 @@ public final class UnderwaterSaplingsListener implements Listener {
         // never grow (too dark, lone dark oak) can't block all the others.
         int budget = Math.min(MAX_GROWTH_ATTEMPTS_PER_CYCLE, trackedSaplings.size());
         for (int i = 0; i < budget && !trackedSaplings.isEmpty(); i++) {
-            TrackedSaplings.Position position = trackedSaplings.next();
+            TrackedSaplings.Position position = Objects.requireNonNull(trackedSaplings.next(),
+                    "the loop checks isEmpty() first");
             Block block = getLoadedBlock(position);
             if (block == null) {
                 continue;
@@ -836,7 +845,7 @@ public final class UnderwaterSaplingsListener implements Listener {
         }
     }
 
-    private Block getLoadedBlock(TrackedSaplings.Position position) {
+    private @Nullable Block getLoadedBlock(TrackedSaplings.Position position) {
         World world = Bukkit.getWorld(position.world());
         if (world == null) {
             return null;

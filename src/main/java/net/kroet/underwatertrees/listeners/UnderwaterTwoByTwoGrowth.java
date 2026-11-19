@@ -26,6 +26,7 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Dark and pale oak trunks only grow into air or leaves, so underwater these
@@ -57,7 +58,7 @@ final class UnderwaterTwoByTwoGrowth {
     private final Set<Material> paleMoss = EnumSet.of(Material.PALE_MOSS_BLOCK, Material.PALE_MOSS_CARPET,
             Material.PALE_HANGING_MOSS);
     // The replacement event while it is fired, so it isn't handled a second time.
-    private StructureGrowEvent ownEvent;
+    private @Nullable StructureGrowEvent ownEvent;
 
     // The dropped growth, handed on to the replacement event; charged lists one
     // player per bone meal taken, to give back if protection refuses the tree.
@@ -65,12 +66,14 @@ final class UnderwaterTwoByTwoGrowth {
         private Location location;
         private final TreeType species;
         private boolean bonemeal;
-        private Player player;
+        private @Nullable Player player;
         private final List<Player> charged = new ArrayList<>();
 
         private Request(StructureGrowEvent event) {
             species = event.getSpecies();
-            takeOver(event);
+            location = event.getLocation();
+            bonemeal = event.isFromBonemeal();
+            player = event.getPlayer();
         }
 
         private void takeOver(StructureGrowEvent event) {
@@ -185,7 +188,7 @@ final class UnderwaterTwoByTwoGrowth {
 
     // Fires the replacement growth for protection plugins and block loggers; null
     // if it is refused or no block is left to set.
-    private List<BlockState> askProtectionPlugins(Request request, List<BlockState> tree) {
+    private @Nullable List<BlockState> askProtectionPlugins(Request request, List<BlockState> tree) {
         List<BlockState> allowed = new ArrayList<>();
         boolean grows = growEventGuard.allows(() -> {
             StructureGrowEvent grow = new StructureGrowEvent(request.location, request.species, request.bonemeal,
@@ -217,7 +220,7 @@ final class UnderwaterTwoByTwoGrowth {
 
     // A cancelled bonemeal use gives the item back, but vanilla uses it up
     // whether the tree grows or not. Returns the player charged, if any.
-    private static Player chargeBoneMeal(StructureGrowEvent event) {
+    private static @Nullable Player chargeBoneMeal(StructureGrowEvent event) {
         Player player = event.getPlayer();
         if (!event.isFromBonemeal() || player == null || player.getGameMode() == GameMode.CREATIVE) {
             return null;
@@ -251,7 +254,7 @@ final class UnderwaterTwoByTwoGrowth {
         return type == Material.WATER || type == Material.BUBBLE_COLUMN;
     }
 
-    private static Material saplingOf(TreeType species) {
+    private static @Nullable Material saplingOf(TreeType species) {
         return switch (species) {
             case DARK_OAK -> Material.DARK_OAK_SAPLING;
             case PALE_OAK -> Material.PALE_OAK_SAPLING;
@@ -284,7 +287,7 @@ final class UnderwaterTwoByTwoGrowth {
 
     // Same order as vanilla's TreeGrower: the first 2x2 of equal saplings that
     // contains the grown one, as the offset of its north-west corner.
-    static Offset findOrigin(BiPredicate<Integer, Integer> isSapling) {
+    static @Nullable Offset findOrigin(BiPredicate<Integer, Integer> isSapling) {
         for (int x = 0; x >= -1; x--) {
             for (int z = 0; z >= -1; z--) {
                 if (isSapling.test(x, z) && isSapling.test(x + 1, z) && isSapling.test(x, z + 1)

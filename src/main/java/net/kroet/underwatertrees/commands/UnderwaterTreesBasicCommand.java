@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import net.kroet.underwatertrees.UnderwaterTreesPlugin;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class UnderwaterTreesBasicCommand implements BasicCommand {
     private static final String ADMIN_PERMISSION = "underwatertrees.admin";

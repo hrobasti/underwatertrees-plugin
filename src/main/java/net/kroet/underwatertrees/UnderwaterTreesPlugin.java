@@ -12,6 +12,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -41,6 +42,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jspecify.annotations.Nullable;
 
 public class UnderwaterTreesPlugin extends JavaPlugin {
 
@@ -107,22 +109,21 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     // Matches chat_prefix_label in the shipped config.yml.
     private static final String DEFAULT_PREFIX_LABEL = "UwTrees";
     private static final String PREFIX_FORMAT = "<green>[<prefix_label>]</green>";
-    private UnderwaterSaplingsListener saplingsListener;
-    private MessageService messages;
-    private ConfigWatcher configWatcher;
-    private FileChangeTracker fileChangeTracker;
-    private Metrics metrics;
-    private volatile UpdateChecker updateChecker;
+    private @Nullable UnderwaterSaplingsListener saplingsListener;
+    private @Nullable MessageService messages;
+    private @Nullable ConfigWatcher configWatcher;
+    private @Nullable FileChangeTracker fileChangeTracker;
+    private @Nullable Metrics metrics;
+    private volatile @Nullable UpdateChecker updateChecker;
     private int updateTaskId = -1;
     // Named to match Timberella's TimberellaPlugin.pendingUpdateInfo, same role:
     // null unless the last check found an update, feeding the op-join chat hint.
-    private volatile UpdateChecker.UpdateInfo pendingUpdateInfo;
+    private volatile UpdateChecker.@Nullable UpdateInfo pendingUpdateInfo;
     private volatile boolean announceNextUpdateSummary = true;
     // Providers whose failure the console has already shown since the last start,
     // reload or successful fetch; main thread only.
     private final Set<UpdateChecker.Provider> reportedProviderFailures = EnumSet.noneOf(UpdateChecker.Provider.class);
-    private ServerMatcher serverMatcher;
-    private FileConfiguration loadedConfig;
+    private @Nullable FileConfiguration loadedConfig;
     // Set while config.yml wasn't valid YAML at startup: the plugin runs on the
     // bundled defaults, without bStats and update checks, until a reload succeeds.
     private boolean runningOnDefaults;
@@ -142,22 +143,23 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
 
         String lang = getConfig().getString("language", "en_US");
         messages = new MessageService(this, PREFIX_FORMAT, DEFAULT_PREFIX_LABEL);
-        messages.setLegacyKeyMigrations(LEGACY_LANG_KEY_MIGRATIONS);
+        getMessages().setLegacyKeyMigrations(LEGACY_LANG_KEY_MIGRATIONS);
         // An old key left next to its renamed key (e.g. after running 1.2.x again)
         // is removed while it still holds the 1.2.x default text.
-        messages.setLegacyDefaultsRoot(LEGACY_1X_DEFAULTS_ROOT);
-        messages.load(lang);
+        getMessages().setLegacyDefaultsRoot(LEGACY_1X_DEFAULTS_ROOT);
+        getMessages().load(lang);
         applyChatPrefixLabel();
         setupServerMatcher();
         if (runningOnDefaults) {
-            messages.log(getLogger(), Level.WARNING, "log.config_invalid_startup", Map.of("error", configError));
+            getMessages().log(getLogger(), Level.WARNING, "log.config_invalid_startup", Map.of("error", configError));
         }
         logAddedDefaults(addedDefaults);
-        getLogger().info(messages.plain("plugin.language_set", Map.of("code", messages.getLanguage())));
+        getLogger().info(getMessages().plain("plugin.language_set", Map.of("code", getMessages().getLanguage())));
         logUpgradeReport(upgrade);
 
-        saplingsListener = new UnderwaterSaplingsListener(this);
-        Bukkit.getPluginManager().registerEvents(saplingsListener, this);
+        UnderwaterSaplingsListener listener = new UnderwaterSaplingsListener(this);
+        saplingsListener = listener;
+        Bukkit.getPluginManager().registerEvents(listener, this);
         registerUpdateNotifier();
 
         registerCommand(COMMAND_NAME, "UnderwaterTrees commands", new UnderwaterTreesBasicCommand(this, COMMAND_NAME));
@@ -167,21 +169,23 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         initUpdateChecker();
 
         initializeConfigWatcher();
-        if (configWatcher != null) {
-            configWatcher.start();
+        ConfigWatcher watcher = configWatcher;
+        if (watcher != null) {
+            watcher.start();
         }
 
-        fileChangeTracker = FileChangeTracker.builder(getDataFolder(), getLogger())
+        FileChangeTracker tracker = FileChangeTracker.builder(getDataFolder(), getLogger())
                 .yamlFile("config.yml")
                 .folder("lang", ".yml")
                 .build();
+        fileChangeTracker = tracker;
         // On defaults, the first snapshot waits for the reload that fixes config.yml,
         // so that reload doesn't list every setting as changed.
         if (!runningOnDefaults) {
-            fileChangeTracker.compareAndUpdate();
+            tracker.compareAndUpdate();
         }
 
-        getLogger().info(messages.plain("plugin.enabled"));
+        getLogger().info(getMessages().plain("plugin.enabled"));
     }
 
     @Override
@@ -190,17 +194,20 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         stopUpdateCheck();
         // Stops TurtleLib's HTTP client and threads, so none outlive a /reload.
         UpdateChecker.shutdown();
-        if (configWatcher != null) {
-            configWatcher.stop();
+        ConfigWatcher watcher = configWatcher;
+        if (watcher != null) {
+            watcher.stop();
             configWatcher = null;
         }
-        if (saplingsListener != null) {
-            saplingsListener.shutdown();
+        UnderwaterSaplingsListener listener = saplingsListener;
+        if (listener != null) {
+            listener.shutdown();
         }
-        if (messages == null) {
+        MessageService current = messages;
+        if (current == null) {
             getLogger().info("UnderwaterTrees plugin disabled.");
         } else {
-            getLogger().info(messages.plain("plugin.disabled"));
+            getLogger().info(current.plain("plugin.disabled"));
         }
     }
 
@@ -222,7 +229,8 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     // Moves a 1.x data folder to backup-1.x and writes fresh files that keep only
     // the values the admin had changed from the 1.x defaults; a 1.0.x folder gets
     // fresh files only. Package-private for LegacyUpgradeTest.
-    static LegacyUpgrade upgradeFrom1x(File dataFolder, Function<String, InputStream> resources, Logger logger,
+    static LegacyUpgrade upgradeFrom1x(File dataFolder, Function<String, InputStream> resources,
+            @Nullable Logger logger,
             List<String> langFiles) {
         LegacyDataUpgrade.Report report = LegacyDataUpgrade.builder(dataFolder, resources, logger)
                 .markerKeys(LEGACY_MARKER_KEYS)
@@ -252,7 +260,8 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         if (!report.performed())
             return;
         log(upgrade.from10() ? "log.upgrade_from_1_0" : "log.upgrade_header",
-                Map.of("plugin", getName(), "backup", displayPath(report.backupDir())));
+                Map.of("plugin", getName(), "backup",
+                        displayPath(Objects.requireNonNull(report.backupDir(), "a performed upgrade has a backup dir"))));
         for (var value : report.carried()) {
             log("log.upgrade_kept", Map.of("old", value.oldPath(), "new", value.newPath(), "value",
                     value.value()));
@@ -292,11 +301,11 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     }
 
     private void log(String key, Map<String, String> placeholders) {
-        messages.log(getLogger(), Level.INFO, key, placeholders);
+        getMessages().log(getLogger(), Level.INFO, key, placeholders);
     }
 
     public MessageService getMessages() {
-        return messages;
+        return Objects.requireNonNull(messages, "messages are loaded in onEnable");
     }
 
     private File configFile() {
@@ -305,10 +314,12 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
 
     @Override
     public FileConfiguration getConfig() {
-        if (loadedConfig == null) {
+        FileConfiguration config = loadedConfig;
+        if (config == null) {
             reloadConfig();
+            config = Objects.requireNonNull(loadedConfig, "reloadConfig() sets loadedConfig");
         }
-        return loadedConfig;
+        return config;
     }
 
     // Loads like JavaPlugin, but a missing or invalid config.yml gives the bundled
@@ -341,62 +352,65 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     // Shared by /underwatertrees reload and the config watcher. Returns null once
     // reloaded; if config.yml isn't valid YAML, nothing is reloaded or rewritten
     // and the error is returned.
-    public String reloadAndMergeConfig() {
+    public @Nullable String reloadAndMergeConfig() {
         return reloadAndMergeConfig(false);
     }
 
     // external: started by the config watcher, which announces the reload in the
     // console before the list of changes.
-    private String reloadAndMergeConfig(boolean external) {
+    private @Nullable String reloadAndMergeConfig(boolean external) {
         String configError = ConfigWatcher.describeYamlError(configFile());
         if (configError != null) {
-            messages.log(getLogger(), Level.WARNING, "log.config_invalid_reload", Map.of("error", configError));
-            if (configWatcher != null) {
+            getMessages().log(getLogger(), Level.WARNING, "log.config_invalid_reload", Map.of("error", configError));
+            ConfigWatcher watcher = configWatcher;
+            if (watcher != null) {
                 // Otherwise the watcher would report this same content once more.
-                configWatcher.refreshBaseline();
+                watcher.refreshBaseline();
             }
             return configError;
         }
         runningOnDefaults = false;
         reloadConfig();
         var addedDefaults = ensureConfigDefaults();
-        messages.reload(getConfig());
+        getMessages().reload(getConfig());
         applyChatPrefixLabel();
         // Not re-run here: the server version can't change while the plugin runs, so
         // re-checking it on every reload would only repeat the warning (or, with
         // ERROR_AND_DISABLE, disable the plugin mid-reload).
         logAddedDefaults(addedDefaults);
-        getLogger().info(messages.plain("plugin.language_set", Map.of("code", messages.getLanguage())));
-        if (saplingsListener != null) {
-            saplingsListener.applyConfig(getConfig());
+        getLogger().info(getMessages().plain("plugin.language_set", Map.of("code", getMessages().getLanguage())));
+        UnderwaterSaplingsListener listener = saplingsListener;
+        if (listener != null) {
+            listener.applyConfig(getConfig());
         }
         initMetrics();
         initUpdateChecker();
         refreshConfigWatcherBaseline();
         if (external) {
-            messages.log(getLogger(), Level.INFO, "log.config_reloaded_external");
+            getMessages().log(getLogger(), Level.INFO, "log.config_reloaded_external");
         }
         logFileChanges();
         return null;
     }
 
     private void logFileChanges() {
-        if (fileChangeTracker == null) {
+        FileChangeTracker tracker = fileChangeTracker;
+        if (tracker == null) {
             return;
         }
-        FileChangeTracker.Changes changes = fileChangeTracker.compareAndUpdate();
+        FileChangeTracker.Changes changes = tracker.compareAndUpdate();
         if (changes.firstSnapshot()) {
             return;
         }
         if (changes.isEmpty()) {
-            messages.log(getLogger(), Level.INFO, "log.reload_changes_none");
+            getMessages().log(getLogger(), Level.INFO, "log.reload_changes_none");
             return;
         }
         // A file that couldn't be read has already been warned about by the tracker.
         if (!changes.hasListedChanges()) {
             return;
         }
-        messages.log(getLogger(), Level.INFO, "log.reload_changes_header");
+        getMessages().log(getLogger(), Level.INFO, "log.reload_changes_header");
         for (FileChangeTracker.FileKeyChanges file : changes.keyChanges()) {
             log("log.reload_changes_line", Map.of("file", file.file(), "changes", file.describe()));
         }
@@ -414,15 +428,19 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         if (metrics != null) {
             return;
         }
-        metrics = new Metrics(this, 28005);
-        metrics.addCustomChart(new SimplePie("language", () -> messages.getLanguage()));
-        metrics.addCustomChart(new SingleLineChart("sapling_count", saplingsListener::getSaplingCount));
-        metrics.addCustomChart(new SingleLineChart("soil_block_count", saplingsListener::getSoilCount));
+        Metrics created = new Metrics(this, 28005);
+        metrics = created;
+        created.addCustomChart(new SimplePie("language", () -> getMessages().getLanguage()));
+        UnderwaterSaplingsListener listener = Objects.requireNonNull(saplingsListener,
+                "saplingsListener is created before metrics");
+        created.addCustomChart(new SingleLineChart("sapling_count", listener::getSaplingCount));
+        created.addCustomChart(new SingleLineChart("soil_block_count", listener::getSoilCount));
     }
 
     private void shutdownMetrics() {
-        if (metrics != null) {
-            metrics.shutdown();
+        Metrics current = metrics;
+        if (current != null) {
+            current.shutdown();
             metrics = null;
         }
     }
@@ -437,15 +455,14 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
 
     private void setupServerMatcher() {
         if (messages == null) {
-            serverMatcher = null;
             return;
         }
-        serverMatcher = ServerMatcher.builder(this)
+        ServerMatcher.builder(this)
                 .allowMinorSeries(SUPPORTED_MINOR_SERIES)
                 .incompatibleAction(INCOMPATIBLE_SERVER_ACTION)
                 .onMismatch(this::handleServerMismatch)
-                .build();
-        serverMatcher.enforce();
+                .build()
+                .enforce();
     }
 
     private void handleServerMismatch(ServerMatcher.MatchResult result) {
@@ -455,9 +472,10 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         placeholders.put("server_name", result.serverName() != null ? result.serverName() : "unknown");
         placeholders.put("mc_version", result.minecraftVersion() != null ? result.minecraftVersion() : "unknown");
 
-        if (messages != null) {
+        MessageService current = messages;
+        if (current != null) {
             // The logger already prefixes the plugin name, so the message has no <prefix>.
-            messages.log(getLogger(), Level.WARNING, "warn.unsupported_server_version", placeholders);
+            current.log(getLogger(), Level.WARNING, "warn.unsupported_server_version", placeholders);
         } else {
             getLogger().warning("UnderwaterTrees officially supports " + REQUIRED_SERVER_BRAND
                     + " " + SUPPORTED_VERSION_LABEL + ". Detected "
@@ -475,9 +493,10 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         int providerMode = Math.max(0, Math.min(2, readUpdateInt("provider", 0)));
         boolean includePrereleases = readUpdateBoolean("include_prereleases", false);
         boolean filterByServerVersion = readUpdateBoolean("filter_by_server_version", true);
-        updateChecker = new UpdateChecker(this, providerMode, includePrereleases, filterByServerVersion, "underwatertrees", "hro_basti/underwatertrees");
+        UpdateChecker checker = new UpdateChecker(this, providerMode, includePrereleases, filterByServerVersion, "underwatertrees", "hro_basti/underwatertrees");
+        updateChecker = checker;
         // A failed provider is reported once, translated, by logProviderResult.
-        updateChecker.setLogFailures(false);
+        checker.setLogFailures(false);
 
         requestUpdateCheck(true);
 
@@ -525,9 +544,6 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     }
 
     private void handleUpdateInfo(UpdateChecker.UpdateInfo info, boolean logConsole) {
-        if (info == null) {
-            return;
-        }
         boolean notifyConsole = readUpdateBoolean("notify_console", true);
         boolean alwaysShow = readUpdateBoolean("notify_console_always_shown", false);
         boolean wantsLog = notifyConsole && (announceNextUpdateSummary || logConsole || info.hasUpdate());
@@ -541,7 +557,7 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         List<UpdateChecker.ProviderResult> firstFailures = firstFailures(reportedProviderFailures, info.providers());
         if (notifyConsole && !summaryLogged) {
             for (UpdateChecker.ProviderResult result : firstFailures) {
-                messages.log(getLogger(), Level.WARNING, "log.update_provider_failed", Map.of("provider",
+                getMessages().log(getLogger(), Level.WARNING, "log.update_provider_failed", Map.of("provider",
                         result.provider().displayName(), "error", result.errorMessage()));
             }
         }
@@ -576,18 +592,19 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("latest_ver", info.latestVersion());
         placeholders.put("current_ver", info.currentVersion());
-        player.sendMessage(messages.format("update.available", placeholders));
+        player.sendMessage(getMessages().format("update.available", placeholders));
         // The details line points to the server log, which has none without it.
         if (readUpdateBoolean("notify_console", true)) {
-            player.sendMessage(messages.component("update.details"));
+            player.sendMessage(getMessages().component("update.details"));
         }
     }
 
     private void applyChatPrefixLabel() {
-        if (messages == null) {
+        MessageService current = messages;
+        if (current == null) {
             return;
         }
-        messages.setPrefixLabel(resolveChatPrefixLabel());
+        current.setPrefixLabel(resolveChatPrefixLabel());
     }
 
     private String resolveChatPrefixLabel() {
@@ -631,16 +648,17 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     // A deleted or emptied config.yml keeps the current settings; the command
     // reload or a restart writes the file again.
     private void handleSkippedConfigChange(ConfigWatcher.SkipReason reason) {
-        messages.log(getLogger(), Level.WARNING, reason == ConfigWatcher.SkipReason.MISSING
+        getMessages().log(getLogger(), Level.WARNING, reason == ConfigWatcher.SkipReason.MISSING
                 ? "log.config_missing_external"
                 : "log.config_empty_external");
     }
 
     private void refreshConfigWatcherBaseline() {
-        if (configWatcher != null) {
-            configWatcher.setEnabled(readConfigWatchEnabled());
-            configWatcher.setIntervalSeconds(resolveConfigWatchIntervalSeconds());
-            configWatcher.refreshBaseline();
+        ConfigWatcher watcher = configWatcher;
+        if (watcher != null) {
+            watcher.setEnabled(readConfigWatchEnabled());
+            watcher.setIntervalSeconds(resolveConfigWatchIntervalSeconds());
+            watcher.refreshBaseline();
         }
     }
 
@@ -685,17 +703,17 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         }
     }
 
-    // Reports keys added to config.yml and, by messages.load(), to the active
+    // Reports keys added to config.yml and, by getMessages().load(), to the active
     // lang file.
     private void logAddedDefaults(List<String> configKeys) {
         logAddedKeys("config.yml", configKeys);
-        logAddedKeys("lang/" + messages.getLanguage() + ".yml", messages.getLastAddedKeys());
+        logAddedKeys("lang/" + getMessages().getLanguage() + ".yml", getMessages().getLastAddedKeys());
     }
 
     private void logAddedKeys(String file, List<String> addedKeys) {
-        if (addedKeys == null || addedKeys.isEmpty())
+        if (addedKeys.isEmpty())
             return;
-        messages.log(getLogger(), Level.INFO, "log.defaults_updated", Map.of("file", file,
+        getMessages().log(getLogger(), Level.INFO, "log.defaults_updated", Map.of("file", file,
                 "count", Integer.toString(addedKeys.size()), "keys", String.join(", ", addedKeys)));
     }
 
@@ -703,7 +721,7 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     // time since the last reset; a successful fetch resets its provider.
     // Package-private for ProviderFailuresTest.
     static List<UpdateChecker.ProviderResult> firstFailures(Set<UpdateChecker.Provider> reported,
-            List<UpdateChecker.ProviderResult> results) {
+            @Nullable List<UpdateChecker.ProviderResult> results) {
         List<UpdateChecker.ProviderResult> first = new ArrayList<>();
         if (results == null) {
             return first;
@@ -731,9 +749,9 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
         }
 
         if (info.hasUpdate()) {
-            messages.log(getLogger(), Level.INFO, "log.update_found", Map.of("current", info.currentVersion()));
+            getMessages().log(getLogger(), Level.INFO, "log.update_found", Map.of("current", info.currentVersion()));
         } else {
-            messages.log(getLogger(), Level.INFO, "log.update_none");
+            getMessages().log(getLogger(), Level.INFO, "log.update_none");
         }
 
         if (hasProviderDetails) {
@@ -752,23 +770,20 @@ public class UnderwaterTreesPlugin extends JavaPlugin {
     }
 
     private void logProviderResult(UpdateChecker.ProviderResult result) {
-        if (result == null) {
-            return;
-        }
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("provider", result.provider().displayName());
         if (!result.success()) {
             placeholders.put("error", result.errorMessage());
-            messages.log(getLogger(), Level.INFO, "log.update_provider_error", placeholders);
+            getMessages().log(getLogger(), Level.INFO, "log.update_provider_error", placeholders);
             return;
         }
         if (result.latestVersion() == null) {
-            messages.log(getLogger(), Level.INFO, "log.update_provider_none", placeholders);
+            getMessages().log(getLogger(), Level.INFO, "log.update_provider_none", placeholders);
             return;
         }
         placeholders.put("version", result.latestVersion());
         placeholders.put("url", result.url() == null ? "" : result.url());
-        messages.log(getLogger(), Level.INFO, "log.update_provider_ok", placeholders);
+        getMessages().log(getLogger(), Level.INFO, "log.update_provider_ok", placeholders);
     }
 
     private ConfigurationSection updateSettings() {

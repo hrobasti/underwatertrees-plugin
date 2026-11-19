@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.block.Block;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tracked sapling positions as a round-robin queue, indexed by chunk. Not
@@ -60,6 +61,7 @@ final class TrackedSaplings {
      * Moves the oldest position to the back of the queue and returns it, so
      * repeated calls visit every position in turn. Null if empty.
      */
+    @Nullable
     Position next() {
         if (queue.isEmpty()) {
             return null;

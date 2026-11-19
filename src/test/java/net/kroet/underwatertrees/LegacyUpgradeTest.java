@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 import net.kroet.turtlelib.helper.LegacyDataUpgrade;
@@ -28,8 +29,12 @@ import org.junit.jupiter.api.io.TempDir;
  * upgraded from its 1.1+ keys while the 1.0.x leftovers are skipped silently.
  */
 class LegacyUpgradeTest {
+    // Set in @BeforeAll before any test runs.
+    @SuppressWarnings("null")
     private static List<String> langFiles;
 
+    // Injected by JUnit before each test.
+    @SuppressWarnings("null")
     @TempDir
     Path dataDir;
 
@@ -187,7 +192,8 @@ class LegacyUpgradeTest {
         LegacyDataUpgrade.Report report = upgrade.report();
         assertTrue(report.performed());
         assertFalse(upgrade.from10());
-        assertEquals("backup-1.x-2", report.backupDir().getFileName().toString());
+        assertEquals("backup-1.x-2",
+                Objects.requireNonNull(report.backupDir(), "backupDir").getFileName().toString());
         assertEquals(List.of(), report.customizedFiles());
         YamlConfiguration result = YamlConfiguration.loadConfiguration(dataDir.resolve("config.yml").toFile());
         assertEquals("Trees", result.getString("chat_prefix_label"));
